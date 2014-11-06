@@ -11,10 +11,10 @@ AM.$package(function(am){
     var global = window,
         doc = global.document,
         $T = am.type,
-        tagNameExpr = /^[\w-]+$/,
-        idExpr = /^#([\w-]*)$/,
-        classExpr = /^\.([\w-]+)$/,
-        selectorEngine,
+//        tagNameExpr = /^[\w-]+$/,
+//        idExpr = /^#([\w-]*)$/,
+//        classExpr = /^\.([\w-]+)$/,
+//        selectorEngine,
 
         hasClassListProperty = 'classList' in doc.documentElement,
         vendors = ['o', 'ms' ,'moz' ,'webkit'],
@@ -209,9 +209,6 @@ AM.$package(function(am){
          *
          * 获取元素的当前实际样式，css 属性需要用驼峰式写法，如：fontFamily
          *
-         * @method getStyle
-         * @memberOf dom
-         *
          * @param {Element} el 元素
          * @param {String} styleName css 属性名称
          * @return {String} 返回元素样式
@@ -391,4 +388,7 @@ AM.$package(function(am){
             parentElement.insertBefore(newElement, refernceElement || parentNode.firstChild);
         }
     };
+
+    //合并查询模块
+    am.extend(am.dom, queryModule);
 });
