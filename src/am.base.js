@@ -1,7 +1,7 @@
 /**
  * 移动端基础脚本库。包含dom查询，事件绑定和ajax等模块
  *
- * @author      wangkun(wangkun1@cmcm.com)
+ * @author      deasel(deasel21@gmail.com)
  * @version     2014-10-27
  * @version     0.0.1
  *

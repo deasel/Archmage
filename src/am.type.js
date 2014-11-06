@@ -1,7 +1,7 @@
 /**
  *  类型判断模块，增加各独立类型的判断，避开typeof等常用类型检验的坑。
  *
- * @author      wangkun(wangkun1@cmcm.com)
+ * @author      deasel(deasel21@gmail.com)
  * @version     2014-10-27
  * @version     0.0.1
  *

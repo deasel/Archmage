@@ -1,7 +1,7 @@
 /**
  * dom操作模块。支持“常用的”dom查询，批处理和操作等功能
  *
- * @author      wangkun(wangkun1@cmcm.com)
+ * @author      deasel(deasel21@gmail.com)
  * @version     2014-10-27
  * @version     0.0.1
  *
