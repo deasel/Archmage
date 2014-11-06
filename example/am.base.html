@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <p id="test">1</p>
+    <p>2</p>
+    <p>3</p>
+    <p>4</p>
+    <h3 id="parent"><span style="color:blue">yyy</span>title<span style="color:red">xxx</span></h3>
+    <script type="text/javascript" src="../src/am.base.js"></script>
+    <script type="text/javascript" src="../src/am.type.js"></script>
+    <script type="text/javascript">
+//        var obj = {name : 'deasel', sex : 'man'};
+//
+//        var res = AM.map(obj, function(item){
+//            return item + '11';
+//        });
+//        var obj1 = {name : 'deasel', sex : 'man'};
+//
+//        var result = AM.filter(obj1, function(item){
+//            return item + '22';
+//        });
+//
+//        alert(typeof HTMLElement);
+
+    var dom = {
+        insertAfter: function(parentElement, newElement, refernceElement){
+            var next = refernceElement.nextSibling;
+            if(next){
+                parentElement.insertBefore(newElement, next);
+            }
+            else{
+                parentElement.appendChild(newElement);
+            }
+            return newElement;
+        }
+    };
+
+    dom.insertAfter();
+
+    document.getElementById('parent').insertBefore(document.getElementById('test'), document.getElementById('parent').firstChild)
+    </script>
+</body>
+</html>
