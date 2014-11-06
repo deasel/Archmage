@@ -25,23 +25,6 @@
 //        });
 //
 //        alert(typeof HTMLElement);
-
-    var dom = {
-        insertAfter: function(parentElement, newElement, refernceElement){
-            var next = refernceElement.nextSibling;
-            if(next){
-                parentElement.insertBefore(newElement, next);
-            }
-            else{
-                parentElement.appendChild(newElement);
-            }
-            return newElement;
-        }
-    };
-
-    dom.insertAfter();
-
-    document.getElementById('parent').insertBefore(document.getElementById('test'), document.getElementById('parent').firstChild)
     </script>
 </body>
 </html>

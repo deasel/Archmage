@@ -8,7 +8,8 @@
  * @depend      am.base.js
  */
 AM.$package(function(am){
-    var ua = navigator.userAgent;
+    var ua = navigator.userAgent,
+        platform = {};
 
     // return the IE version or -1
     function getIeVersion(){
@@ -24,19 +25,19 @@ AM.$package(function(am){
         return retVal;
     }
 
-    function uaMatch(){
-
+    function uaMatch(regexp){
+        return ua.match(regexp) === null ? false : true;
     }
 
-    am.platform = {
-        ieVersion : getIeVersion(),
-        ie : platform.ieVersion !== -1,
-        android : ua.match(/Android/i) === null ? false : true,
-        iPhone : ua.match(/iPhone/i) === null ? false : true,
-        iPad : ua.match(/iPad/i) === null ? false : true,
-        iPod : ua.match(/iPod/i) === null ? false : true,
-        winPhone : ua.match(/Windows Phone/i) === null ? false : true,
-        IOS : platform.iPad || platform.iPhone,
-        touchDevice : "ontouchstart" in window
-    };
+    platform.ieVersion = getIeVersion();
+    platform.ie = platform.ieVersion !== -1;
+    platform.android = uaMatch(/Android/i);
+    platform.iPhone = uaMatch(/iPhone/i);
+    platform.iPad = uaMatch(/iPad/i);
+    platform.iPod = uaMatch(/iPod/i);
+    platform.windowsPhone = uaMatch(/Windows Phone/i);
+    platform.IOS = platform.iPad || platform.iPhone;
+    platform.touchDevice = "ontouchstart" in window;
+
+    am.platform = platform;
 });
