@@ -110,11 +110,11 @@ AM.$package(function(am){
 
     //包装所有的查询函数，增加统一的事件回调
     am.map(queryModule, function(fn, name){
-        queryModule[name] = queryFactory(fn);
+        return queryFactory(fn);
     });
 
 
-    am.dom = {
+    var domExtend = {
 
         /**
          * 新建节点。支持传入节点名称（字符串）和包含节点属性的键值对。同时支持创建完后，直接插入指定dom结构中（默认为向最后插入）
@@ -390,5 +390,5 @@ AM.$package(function(am){
     };
 
     //合并查询模块
-    am.extend(am.dom, queryModule);
+    am.dom = am.extend(domExtend, queryModule);
 });

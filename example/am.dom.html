@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <a href="javascript:;" id="link">id=link</a><br/>
+    <a href="javascript:;" class="link">class=link</a><br/>
+    <a href="javascript:;" class="link">class=link</a><br/>
+    <a href="javascript:;" class="link">class=link</a><br/>
+    <a href="javascript:;" class="link">class=link</a><br/>
+    <p>
+    <a href="javascript:;" class="link">class=link</a><br/>
+    </p>
+    <script type="text/javascript" src="../src/am.base.js"></script>
+    <script type="text/javascript" src="../src/am.type.js"></script>
+    <script type="text/javascript" src="../src/am.dom.js"></script>
+    <script type="text/javascript">
+//    var $D = AM.dom;
+//
+//    var nodeById = $D.id('link', function(){
+//        this.innerHTML += ' callback id';
+//    });
+//    var test = nodeByClass = $D.className('link', function(){
+//        this.innerHTML += ' callback class';
+//    });
+//    debugger;
+//
+//
+//    var nodeByTag = $D.tagName('p', function(){
+//        this.innerHTML = '';
+//    });
+//    debugger;
+
+        var address = document.getElementsByTagName('a');
+        var list = document.querySelectorAll('a');
+        debugger;
+        document.getElementsByTagName('p')[0].innerHTML = '';
+debugger;
+    </script>
+</body>
+</html>

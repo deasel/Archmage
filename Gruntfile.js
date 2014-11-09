@@ -4,7 +4,7 @@ module.exports = function(grunt){
     grunt.initConfig({
 
         //读取package.json信息
-        pkg : grunt.file.readJSON('package.json'),
+        pkg : grunt.file.readJSON('package.json')
 
 
     });

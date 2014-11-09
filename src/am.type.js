@@ -16,9 +16,6 @@ AM.$package(function(am){
         /**
          * 判断是否数组
          *
-         * @name isArray
-         * @function
-         * @memberOf J.type
          * @param {Object} o 判断对象
          * @return {boolean} 是否数组
          */
@@ -28,9 +25,6 @@ AM.$package(function(am){
         /**
          * 判断是否Object
          *
-         * @name isObject
-         * @function
-         * @memberOf J.type
          * @param {Object} o 判断对象
          * @return {boolean} 是否Object
          */
@@ -40,9 +34,6 @@ AM.$package(function(am){
         /**
          * 判断是否布尔类型
          *
-         * @name isBoolean
-         * @function
-         * @memberOf J.type
          * @param {Object} o 判断对象
          * @return {boolean} 是否布尔类型
          */
@@ -52,9 +43,6 @@ AM.$package(function(am){
         /**
          * 判断是否数值类型
          *
-         * @name isNumber
-         * @function
-         * @memberOf J.type
          * @param {Object} o 判断对象
          * @return {boolean} 是否数值类型
          */
@@ -64,9 +52,6 @@ AM.$package(function(am){
         /**
          * 判断是否undefined
          *
-         * @name isUndefined
-         * @function
-         * @memberOf J.type
          * @param {Object} o 判断对象
          * @return {boolean} 是否undefined
          */
@@ -76,9 +61,6 @@ AM.$package(function(am){
         /**
          * 判断是否Null
          *
-         * @name isNull
-         * @function
-         * @memberOf J.type
          * @param {Object} o 判断对象
          * @return {boolean} 是否Null
          */
@@ -88,9 +70,6 @@ AM.$package(function(am){
         /**
          * 判断是否function
          *
-         * @name isFunction
-         * @function
-         * @memberOf J.type
          * @param {Object} o 判断对象
          * @return {boolean} 是否function
          */
@@ -100,9 +79,6 @@ AM.$package(function(am){
         /**
          * 判断是否字符串
          *
-         * @name isString
-         * @function
-         * @memberOf J.type
          * @param {Object} o 判断对象
          * @return {boolean} 是否字符串
          */
@@ -113,8 +89,6 @@ AM.$package(function(am){
         /**
          * 判断是否为空对象
          *
-         * @name isPlainObject
-         * @function
          * @param obj   判断对象
          * @returns {boolean}   是否为空对象
          */
@@ -131,8 +105,6 @@ AM.$package(function(am){
          *      IE9+和safari中返回Object，
          *      IE8-返回undefined
          *
-         * @name isHTMLElement
-         * @function
          * @param obj   判断对象
          * @returns {boolean}   是否为dom对象
          */
