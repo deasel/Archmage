@@ -17,27 +17,21 @@
     <script type="text/javascript" src="../src/am.type.js"></script>
     <script type="text/javascript" src="../src/am.dom.js"></script>
     <script type="text/javascript">
-//    var $D = AM.dom;
-//
-//    var nodeById = $D.id('link', function(){
-//        this.innerHTML += ' callback id';
-//    });
-//    var test = nodeByClass = $D.className('link', function(){
-//        this.innerHTML += ' callback class';
-//    });
-//    debugger;
-//
-//
-//    var nodeByTag = $D.tagName('p', function(){
-//        this.innerHTML = '';
-//    });
-//    debugger;
+    var $D = AM.dom;
 
-        var address = document.getElementsByTagName('a');
-        var list = document.querySelectorAll('a');
-        debugger;
-        document.getElementsByTagName('p')[0].innerHTML = '';
-debugger;
+    var nodeById = $D.id('link', function(){
+        this.innerHTML += ' callback id';
+    });
+    var test = nodeByClass = $D.className('link', function(){
+        this.innerHTML += ' callback class';
+    });
+    debugger;
+
+
+    var nodeByTag = $D.tagName('p', function(){
+        this.innerHTML = '';
+    });
+    debugger;
     </script>
 </body>
 </html>
