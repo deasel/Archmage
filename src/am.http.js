@@ -8,7 +8,7 @@
  * @depend      am.base.js  am.type.js
  */
 //http
-AM.$package(function(am){
+AM.$package(function (am) {
 
 
     var http = {
@@ -19,12 +19,13 @@ AM.$package(function(am){
          *
          * @return {string} 生成的参数串
          */
-        serializeParam : function ( param ) {
-            if ( !param ) return '';
+        serializeParam: function (param) {
+            if (!param) return '';
             var qstr = [];
-            for ( var key in  param ) {
-                qstr.push( encodeURIComponent(key) + '=' + encodeURIComponent(param[key]) );
-            };
+            for (var key in  param) {
+                qstr.push(encodeURIComponent(key) + '=' + encodeURIComponent(param[key]));
+            }
+            ;
             return  qstr.join('&');
         },
         /**
@@ -36,10 +37,10 @@ AM.$package(function(am){
          *
          * @return {string} 参数值
          */
-        getUrlParam :  function ( name ,href ,noDecode ) {
-            var re = new RegExp( '(?:\\?|#|&)' + name + '=([^&]*)(?:$|&|#)',  'i' ), m = re.exec( href );
-            var ret = m ? m[1] : '' ;
-            return !noDecode ? decodeURIComponent( ret ) : ret;
+        getUrlParam: function (name, href, noDecode) {
+            var re = new RegExp('(?:\\?|#|&)' + name + '=([^&]*)(?:$|&|#)', 'i'), m = re.exec(href);
+            var ret = m ? m[1] : '';
+            return !noDecode ? decodeURIComponent(ret) : ret;
         },
         /**
          * ajax方法，支持的参数如下：
@@ -59,7 +60,7 @@ AM.$package(function(am){
          * @param option
          * @returns {*}
          */
-        ajax : function ( option ) {
+        ajax: function (option) {
             var o = option;
             var m = o.method.toLocaleUpperCase();
             var isPost = 'POST' == m;
@@ -69,41 +70,43 @@ AM.$package(function(am){
             var async = ('async' in option) ? option.async : true;//默认为异步请求, 可以设置为同步
 
             var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : false;
-            if ( !xhr ) {
-                o.error && o.error.call( null, { ret : 999 , msg : 'Create XHR Error!' } );
+            if (!xhr) {
+                o.error && o.error.call(null, { ret: 999, msg: 'Create XHR Error!' });
                 return false;
             }
 
-            var qstr = http.serializeParam( o.data );
+            var qstr = http.serializeParam(o.data);
 
             // get 请求 参数处理
-            !isPost && ( o.url += ( o.url.indexOf( '?' ) > -1 ?  '&' : '?' ) + qstr );
+            !isPost && ( o.url += ( o.url.indexOf('?') > -1 ? '&' : '?' ) + qstr );
 
-            xhr.open( m, o.url, async );
-            if(withCredentials) xhr.withCredentials = true;
+            xhr.open(m, o.url, async);
+            if (withCredentials) xhr.withCredentials = true;
 
-            isPost && xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+            isPost && xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             var timer = 0;
 
-            xhr.onreadystatechange = function(){
-                if ( 4 == xhr.readyState ) {
+            xhr.onreadystatechange = function () {
+                if (4 == xhr.readyState) {
                     var status = xhr.status;
-                    if ( (status >= 200 && status < 300) || status == 304 ||status == 0) {
-                        var response = xhr.responseText.replace( /(\r|\n|\t)/gi, '' );
+                    if ((status >= 200 && status < 300) || status == 304 || status == 0) {
+                        var response = xhr.responseText.replace(/(\r|\n|\t)/gi, '');
                         // var m = /callback\((.+)\)/gi.exec( response );
                         // var result = { ret : 998, msg : '解析数据出错，请稍后再试' };
                         // try{ result = eval( '(' + m[1] + ')' ) } catch ( e ) {};
                         // result = eval( '(' + m[1] + ')' )
                         var json = null;
-                        try{
+                        try {
                             json = JSON.parse(response);
-                        }catch(e){}
-                        o.onSuccess && o.onSuccess(json,xhr);
-                    }else{
+                        } catch (e) {
+                        }
+                        o.onSuccess && o.onSuccess(json, xhr);
+                    } else {
                         o.onError && o.onError(xhr, +new Date - startTime);
-                    };
+                    }
+                    ;
                     isComplete = true;
-                    if(timer){
+                    if (timer) {
                         clearTimeout(timer);
                     }
                 }
@@ -111,15 +114,15 @@ AM.$package(function(am){
             };
 
             var startTime = +new Date;
-            xhr.send( isPost ? qstr : void(0) );
+            xhr.send(isPost ? qstr : void(0));
 
-            if(timeout){
-                timer = setTimeout(function(){
-                    if(!isComplete){
+            if (timeout) {
+                timer = setTimeout(function () {
+                    if (!isComplete) {
                         xhr.abort();//不abort同一url无法重新发送请求？
                         o.onTimeout && o.onTimeout(xhr);
                     }
-                },timeout);
+                }, timeout);
             }
 
             return xhr;

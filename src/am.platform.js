@@ -7,25 +7,25 @@
  *
  * @depend      am.base.js
  */
-AM.$package(function(am){
+AM.$package(function (am) {
     var ua = navigator.userAgent,
         platform = {};
 
     // return the IE version or -1
-    function getIeVersion(){
+    function getIeVersion() {
         var retVal = -1,
             ua, re;
-        if(navigator.appName === 'Microsoft Internet Explorer'){
+        if (navigator.appName === 'Microsoft Internet Explorer') {
             ua = navigator.userAgent;
             re = new RegExp('MSIE ([0-9]{1,})');
-            if(re.exec(ua) !== null){
+            if (re.exec(ua) !== null) {
                 retVal = parseInt(RegExp.$1);
             }
         }
         return retVal;
     }
 
-    function uaMatch(regexp){
+    function uaMatch(regexp) {
         return ua.match(regexp) === null ? false : true;
     }
 

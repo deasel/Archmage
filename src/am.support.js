@@ -7,7 +7,7 @@
  *
  * @depend      am.base.js  am.type.js  am.dom.js
  */
-AM.$package(function(am){
+AM.$package(function (am) {
     var win = window,
         doc = win.document,
         nav = win.navigator,
@@ -19,26 +19,26 @@ AM.$package(function(am){
          *
          * @return {boolean} 是否支持fixed
          */
-        fixed:(function(){
+        fixed: (function () {
             var container = document.body;
             var el = $D.node('div');
-            $D.setStyle(el,{
-                position:"fixed",
-                top:"100px"
+            $D.setStyle(el, {
+                position: "fixed",
+                top: "100px"
             });
             container.appendChild(el);
 
             var originalHeight = container.style.height,
                 originalScrollTop = container.scrollTop;
 
-            $D.setStyle(container,"height","3000px");
+            $D.setStyle(container, "height", "3000px");
             container.scrollTop = 500;
 
             var elementTop = el.getBoundingClientRect().top;
-            if(originalHeight)
-                $D.setStyle(container,"height",originalHeight + "px");
+            if (originalHeight)
+                $D.setStyle(container, "height", originalHeight + "px");
             else
-                $D.setStyle(container,"height","");
+                $D.setStyle(container, "height", "");
 
             container.removeChild(el);
             container.scrollTop = originalScrollTop;
@@ -49,21 +49,21 @@ AM.$package(function(am){
          *
          * @return {string} 可用事件名
          */
-        transitionend: (function(){
+        transitionend: (function () {
             var ret, endEventNames, div, handler, i;
 
-            if('ontransitionend' in win){
+            if ('ontransitionend' in win) {
                 return 'transitionend';
             }
-            else if('onwebkittransitionend' in win){
+            else if ('onwebkittransitionend' in win) {
                 return 'webkitTransitionEnd';
             }
             // IE10+
-            else if('transition' in doc.body.style){
+            else if ('transition' in doc.body.style) {
                 return 'transitionend';
             }
             // 模拟transition，异步得出检测结果
-            else if('addEventListener' in win){
+            else if ('addEventListener' in win) {
                 endEventNames = [
                     'transitionend',
                     'webkitTransitionEnd',
@@ -73,9 +73,9 @@ AM.$package(function(am){
                     'oTransitionEnd'
                 ];
                 div = doc.createElement('div');
-                handler = function(e){
+                handler = function (e) {
                     var i = endEventNames.length;
-                    while(i--){
+                    while (i--) {
                         this.removeEventListener(endEventNames[i], handler);
                     }
                     support.transitionend = e.type;
@@ -92,13 +92,13 @@ AM.$package(function(am){
                     'OTransitionEnd': 'top 1ms'
                 });
                 i = endEventNames.length;
-                while(i--){
+                while (i--) {
                     div.addEventListener(endEventNames[i], handler, false);
                 }
                 doc.documentElement.appendChild(div);
-                setTimeout(function(){
+                setTimeout(function () {
                     div.style.top = '100px';
-                    setTimeout(function(){
+                    setTimeout(function () {
                         div.parentNode.removeChild(div);
                         div = null;
                         handler = null;
@@ -112,14 +112,14 @@ AM.$package(function(am){
          *
          * @return {Object} 可用audio格式列表
          */
-        audio: (function(){
+        audio: (function () {
             var elem = document.createElement('audio'),
                 result,
                 NOT_SUPPORT_RE = /^no$/i,
                 EMPTY_STR = '';
 
-            try{
-                if(elem.canPlayType){
+            try {
+                if (elem.canPlayType) {
                     result = {};
                     result.mp3 = elem.canPlayType('audio/mpeg;').replace(NOT_SUPPORT_RE, EMPTY_STR);
                     result.wav = elem.canPlayType('audio/wav; codecs="1"').replace(NOT_SUPPORT_RE, EMPTY_STR);
@@ -127,7 +127,8 @@ AM.$package(function(am){
                     result.m4a = (elem.canPlayType('audio/x-m4a;') || elem.canPlayType('audio/aac;')).replace(NOT_SUPPORT_RE, EMPTY_STR);
                 }
             }
-            catch(e){}
+            catch (e) {
+            }
 
             return result;
         })(),
@@ -136,23 +137,24 @@ AM.$package(function(am){
          *
          * @return {boolean} 是否安装了flash插件
          */
-        flash: (function() {
-            if(nav.plugins && nav.plugins.length && nav.plugins['Shockwave Flash']){
+        flash: (function () {
+            if (nav.plugins && nav.plugins.length && nav.plugins['Shockwave Flash']) {
                 return true;
             }
-            else if(nav.mimeTypes && nav.mimeTypes.length){
+            else if (nav.mimeTypes && nav.mimeTypes.length) {
                 var mimeType = nav.mimeTypes['application/x-shockwave-flash'];
                 return mimeType && mimeType.enabledPlugin;
             }
-            else{
+            else {
                 var ax;
-                try{
-                    if(ActiveXObject){
+                try {
+                    if (ActiveXObject) {
                         ax = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
                         return true;
                     }
                 }
-                catch(e){}
+                catch (e) {
+                }
             }
             return false;
         })()

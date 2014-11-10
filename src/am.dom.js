@@ -7,7 +7,7 @@
  *
  * @depend      am.base.js  am.type.js
  */
-AM.$package(function(am){
+AM.$package(function (am) {
     var global = window,
         doc = global.document,
         $T = am.type,
@@ -17,7 +17,7 @@ AM.$package(function(am){
 //        selectorEngine,
 
         hasClassListProperty = 'classList' in doc.documentElement,
-        vendors = ['o', 'ms' ,'moz' ,'webkit'],
+        vendors = ['o', 'ms' , 'moz' , 'webkit'],
         div = doc.createElement('div');
 
     var queryModule = {
@@ -28,7 +28,7 @@ AM.$package(function(am){
          *
          * @returns {HTMLElement}
          */
-        id : function(domId){
+        id: function (domId) {
             return doc.getElementById(domId);
         },
         /**
@@ -37,7 +37,7 @@ AM.$package(function(am){
          * @param context
          * @returns {NodeList|*}
          */
-        tagName : function(tagName, context){
+        tagName: function (tagName, context) {
             context = context || doc;
             return context.getElementsByTagName(tagName);
         },
@@ -47,19 +47,19 @@ AM.$package(function(am){
          * @param context
          * @returns {NodeList|*}
          */
-        className : function(className, context){
+        className: function (className, context) {
             context = context || doc;
-            if(context.getElementsByClassName){
+            if (context.getElementsByClassName) {
                 return context.getElementsByClassName(className);
-            }else{
+            } else {
 
                 var children = context.getElementsByTagName('*'),
                     elements = [],
                     i, l, classNames;
 
-                for(i = 0, l = children.length; i < l; ++i){
-                    if(classNames = children[i].className
-                        && J.indexOf(classNames.split(' '), className) >= 0){
+                for (i = 0, l = children.length; i < l; ++i) {
+                    if (classNames = children[i].className
+                        && J.indexOf(classNames.split(' '), className) >= 0) {
                         elements.push(children[i]);
                     }
                 }
@@ -74,18 +74,18 @@ AM.$package(function(am){
      * @param queryEngine       查询引擎
      * @returns {Function}      返回包装后的函数体
      */
-    function queryFactory(queryEngine){
-        return function(){
-            var args = arguments,result,
+    function queryFactory(queryEngine) {
+        return function () {
+            var args = arguments, result,
                 argsLen = args.length,
                 selector = args[0],
                 context = args[1] || doc,
                 callback = args[2] || null;
 
-            if(argsLen <= 0){
+            if (argsLen <= 0) {
                 return null;
-            }else if(argsLen == 2){
-                if($T.isFunction(context)){
+            } else if (argsLen == 2) {
+                if ($T.isFunction(context)) {
                     context = doc;
                     callback = args[1];
                 }
@@ -93,11 +93,11 @@ AM.$package(function(am){
 
             result = queryEngine.call(global, selector, context);
 
-            if(callback && result){
+            if (callback && result) {
                 //这里需要将HTML Collection转换为数组
                 var nodeList = result.length ? am.toArray(result) : [result];
 
-                for(var i = 0, len = nodeList.length, node; i < len; i++){
+                for (var i = 0, len = nodeList.length, node; i < len; i++) {
                     node = nodeList[i];
                     callback.call(node, i);
                 }
@@ -109,7 +109,7 @@ AM.$package(function(am){
     }
 
     //包装所有的查询函数，增加统一的事件回调
-    am.map(queryModule, function(fn, name){
+    am.map(queryModule, function (fn, name) {
         return queryFactory(fn);
     });
 
@@ -124,19 +124,19 @@ AM.$package(function(am){
          *
          * @returns {HTMLElement}
          */
-        node:function(nodeName, parent){
-            var attrs,name,node;
+        node: function (nodeName, parent) {
+            var attrs, name, node;
 
-            if($T.isObject(nodeName)){
+            if ($T.isObject(nodeName)) {
                 attrs = nodeName;
                 name = attrs.nodeName;
 
                 delete attrs.nodename;
-            }else if($T.isString(nodeName)){
+            } else if ($T.isString(nodeName)) {
                 attrs = {};
                 name = nodeName;
 
-            }else{
+            } else {
                 return nodeName;
             }
 
@@ -144,7 +144,7 @@ AM.$package(function(am){
 
             node = am.extend(node, attrs);
 
-            if($T.isHTMLElement(parent)){
+            if ($T.isHTMLElement(parent)) {
                 parent.appendChild(node);
             }
 
@@ -156,9 +156,9 @@ AM.$package(function(am){
          *
          * @param {HTMLElement} node
          */
-        remove:function(node){
+        remove: function (node) {
             var context = node.parentNode;
-            if(context) context.removeChild(node);
+            if (context) context.removeChild(node);
         },
 
         /**
@@ -167,9 +167,11 @@ AM.$package(function(am){
          * @param cssStyle
          * @returns {*|string}
          */
-        toDomStyle:function(cssStyle){
-            if(!$T.isString(cssStyle)) return;
-            return cssStyle.replace(/\-[a-z]/g,function(m) { return m.charAt(1).toUpperCase(); });
+        toDomStyle: function (cssStyle) {
+            if (!$T.isString(cssStyle)) return;
+            return cssStyle.replace(/\-[a-z]/g, function (m) {
+                return m.charAt(1).toUpperCase();
+            });
         },
 
         /**
@@ -178,9 +180,11 @@ AM.$package(function(am){
          * @param domStyle
          * @returns {*|string}
          */
-        toCssStyle:function(domStyle){
-            if(!$T.isString(domStyle)) return;
-            return domStyle.replace(/[A-Z]/g, function(m) { return '-'+m.toLowerCase(); });
+        toCssStyle: function (domStyle) {
+            if (!$T.isString(domStyle)) return;
+            return domStyle.replace(/[A-Z]/g, function (m) {
+                return '-' + m.toLowerCase();
+            });
         },
         /**
          * 为元素设置样式
@@ -189,19 +193,19 @@ AM.$package(function(am){
          * @param {string/object} styleName
          * @param {string} styleValue
          */
-        setStyle:function(elem ,styleName,styleValue){
+        setStyle: function (elem, styleName, styleValue) {
             var self = this;
-            if(elem.length){
-                AM.each(elem ,function(e){
-                    self.setStyle(e,styleName,styleValue);
+            if (elem.length) {
+                AM.each(elem, function (e) {
+                    self.setStyle(e, styleName, styleValue);
                 });
-            }else if($T.isObject(styleName)){
-                for(var n in styleName){
-                    if(styleName.hasOwnProperty(n)){
+            } else if ($T.isObject(styleName)) {
+                for (var n in styleName) {
+                    if (styleName.hasOwnProperty(n)) {
                         elem.style[n] = styleName[n];
                     }
                 }
-            }else if($T.isString(styleName)){
+            } else if ($T.isString(styleName)) {
                 elem.style[styleName] = styleValue;
             }
         },
@@ -213,23 +217,23 @@ AM.$package(function(am){
          * @param {String} styleName css 属性名称
          * @return {String} 返回元素样式
          */
-        getStyle: function(el, styleName){
-            if(!el){
+        getStyle: function (el, styleName) {
+            if (!el) {
                 return;
             }
-            if(styleName === "float"){
+            if (styleName === "float") {
                 styleName = "cssFloat";
             }
-            if(el.style[styleName]){
+            if (el.style[styleName]) {
                 return el.style[styleName];
-            }else if(window.getComputedStyle){
+            } else if (window.getComputedStyle) {
                 return window.getComputedStyle(el, null)[styleName];
-            }else if(doc.defaultView && doc.defaultView.getComputedStyle){
+            } else if (doc.defaultView && doc.defaultView.getComputedStyle) {
                 styleName = styleName.replace(/([/A-Z])/g, "-$1");
                 styleName = styleName.toLowerCase();
                 var style = document.defaultView.getComputedStyle(el, '');
                 return style && style.getPropertyValue(styleName);
-            }else if(el.currentStyle){
+            } else if (el.currentStyle) {
                 return el.currentStyle[styleName];
             }
 
@@ -240,13 +244,13 @@ AM.$package(function(am){
          * @param {string} prop
          * @returns {string}
          */
-        getVendorPropertyName : function(prop) {
+        getVendorPropertyName: function (prop) {
             var style = div.style;
             var _prop;
             if (prop in style) return prop;
             // _prop = prop;
             _prop = prop.charAt(0).toUpperCase() + prop.substr(1);
-            for(var i = vendors.length; i--;){
+            for (var i = vendors.length; i--;) {
                 var v = vendors[i];
                 var vendorProp = v + _prop;
                 if (vendorProp in style) {
@@ -259,7 +263,7 @@ AM.$package(function(am){
          *
          * @returns {*|boolean}
          */
-        isSupprot3d : function(){
+        isSupprot3d: function () {
             // var transformStr = $D.getVendorPropertyName("transform");
             // $D.setStyle(div ,transformStr ,"rotatex(90deg)");
             // if(div.style[transformStr] == "") return false;
@@ -274,21 +278,21 @@ AM.$package(function(am){
          * @param {HTMLElement} elem
          * @param {string}  className
          */
-        addClass: (function(){
-            if(hasClassListProperty){
+        addClass: (function () {
+            if (hasClassListProperty) {
                 return function (elem, className) {
-                    if (!elem || !className || $D.hasClass(elem, className)){
+                    if (!elem || !className || $D.hasClass(elem, className)) {
                         return;
                     }
                     elem.classList.add(className);
                 };
             }
-            else{
-                return function(elem, className){
+            else {
+                return function (elem, className) {
                     if (!elem || !className || $D.hasClass(elem, className)) {
                         return;
                     }
-                    elem.className += " "+ className;
+                    elem.className += " " + className;
                 }
             }
         })(),
@@ -298,7 +302,7 @@ AM.$package(function(am){
          * @param {HTMLElement} elem
          * @param {string}  className
          */
-        removeClass: (function(){
+        removeClass: (function () {
             if (hasClassListProperty) {
                 return function (elem, className) {
                     if (!elem || !className || !$D.hasClass(elem, className)) {
@@ -321,7 +325,7 @@ AM.$package(function(am){
          * @param {HTMLElement} elem
          * @param {string}  className
          */
-        hasClass: (function(){
+        hasClass: (function () {
             if (hasClassListProperty) {
                 return function (elem, className) {
                     if (!elem || !className) {
@@ -344,13 +348,13 @@ AM.$package(function(am){
          * @param {HTMLElement} ele
          * @param {string} className
          */
-        toggleClass:function(ele,className){
+        toggleClass: function (ele, className) {
             var $D = AM.dom;
-            if($D.hasClass(ele,className)){
-                $D.removeClass(ele,className);
+            if ($D.hasClass(ele, className)) {
+                $D.removeClass(ele, className);
             }
-            else{
-                $D.addClass(ele,className);
+            else {
+                $D.addClass(ele, className);
             }
         },
 
@@ -361,14 +365,14 @@ AM.$package(function(am){
          * @param {HTMLElement} targetNode    需要追加的对象
          * @param {HTMLElement} refernceElement   追加到该dom之后（可选）
          */
-        append : function(parentNode, targetNode, refernceElement){
-            if(!parentNode || !targetNode){
+        append: function (parentNode, targetNode, refernceElement) {
+            if (!parentNode || !targetNode) {
                 return;
             }
 
-            if(refernceElement && refernceElement.nextSibling){
+            if (refernceElement && refernceElement.nextSibling) {
                 parentElement.insertBefore(newElement, refernceElement.nextSibling);
-            }else{
+            } else {
                 parentNode.appendChild(targetNode);
             }
 
@@ -381,8 +385,8 @@ AM.$package(function(am){
          * @param {HTMLElement} targetNode    需要追加的对象
          * @param {HTMLElement} refernceElement   追加到该dom之后（可选）
          */
-        prepend : function(parentNode, targetNode, refernceElement){
-            if(!parentNode || !targetNode){
+        prepend: function (parentNode, targetNode, refernceElement) {
+            if (!parentNode || !targetNode) {
                 return;
             }
             parentElement.insertBefore(newElement, refernceElement || parentNode.firstChild);

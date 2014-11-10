@@ -8,7 +8,7 @@
  * @depend      am.base.js  am.type.js
  */
 //browser
-AM.$package(function(am){
+AM.$package(function (am) {
     var s, browser,
         EXTEND = '([\\d.]+)',
         ua = navigator.userAgent.toLowerCase(),
@@ -22,8 +22,8 @@ AM.$package(function(am){
      * @param Number floatLength
      * @return Number
      */
-    var toFixedVersion = function(ver, floatLength){
-        ver= (""+ver).replace(/_/g,".");
+    var toFixedVersion = function (ver, floatLength) {
+        ver = ("" + ver).replace(/_/g, ".");
         floatLength = floatLength || 1;
         ver = String(ver).split(".");
         ver = ver[0] + "." + (ver[1] || "0");
@@ -42,8 +42,7 @@ AM.$package(function(am){
          * @name features
          * @memberOf browser
          */
-        features:
-        /**
+        features: /**
          * @lends browser.features
          */
         {
@@ -68,12 +67,11 @@ AM.$package(function(am){
          * @name plugins
          * @memberOf browser
          */
-        plugins:
-        /**
+        plugins: /**
          * @lends browser.plugins
          */
         {
-            flash: (function(){
+            flash: (function () {
                 //var ver = "none";
                 var ver = 0;
                 if (plug && plug.length) {
@@ -88,7 +86,8 @@ AM.$package(function(am){
                             new ActiveXObject('ShockwaveFlash.ShockwaveFlash.' + startVer);
                             ver = toFixedVersion(startVer);
                             break;
-                        } catch(e) {}
+                        } catch (e) {
+                        }
                     }
                 }
 
@@ -101,7 +100,7 @@ AM.$package(function(am){
          *
          * @memberOf browser
          */
-        getUserAgent: function(){
+        getUserAgent: function () {
             return ua;
         },
 
@@ -195,7 +194,7 @@ AM.$package(function(am){
          * @memberOf browser
          *
          */
-        set: function(name, ver){
+        set: function (name, ver) {
             this.name = name;
             this.version = ver;
 //            this[name] = ver;
@@ -204,17 +203,17 @@ AM.$package(function(am){
 
     // 探测浏览器并存入 browser 对象
     browserList = {
-        'ie' : 'msie ',
-        'firefox' : 'firefox\/',
-        'chrome' : 'chrome\/',
-        'opera' : 'opera.',
-        'adobeAir' : 'adobeair\/',
-        'safari' : 'version\/'
+        'ie': 'msie ',
+        'firefox': 'firefox\/',
+        'chrome': 'chrome\/',
+        'opera': 'opera.',
+        'adobeAir': 'adobeair\/',
+        'safari': 'version\/'
     };
 
-    for(var name in browserList){
+    for (var name in browserList) {
         s = ua.match(new RegExp(browserList[name] + EXTEND));
-        if(s){
+        if (s) {
             browser.set(name, toFixedVersion(s[1]));
             break;
         }

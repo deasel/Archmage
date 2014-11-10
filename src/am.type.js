@@ -8,9 +8,9 @@
  * @depend      am.base.js
  */
 //type
-AM.$package(function(am){
+AM.$package(function (am) {
 
-    var ots=Object.prototype.toString;
+    var ots = Object.prototype.toString;
 
     am.type = {
         /**
@@ -19,7 +19,7 @@ AM.$package(function(am){
          * @param {Object} o 判断对象
          * @return {boolean} 是否数组
          */
-        isArray : function(o){
+        isArray: function (o) {
             return o && (o.constructor === Array || ots.call(o) === "[object Array]");
         },
         /**
@@ -28,7 +28,7 @@ AM.$package(function(am){
          * @param {Object} o 判断对象
          * @return {boolean} 是否Object
          */
-        isObject : function(o) {
+        isObject: function (o) {
             return o && (o.constructor === Object || ots.call(o) === "[object Object]");
         },
         /**
@@ -37,7 +37,7 @@ AM.$package(function(am){
          * @param {Object} o 判断对象
          * @return {boolean} 是否布尔类型
          */
-        isBoolean : function(o) {
+        isBoolean: function (o) {
             return (o === false || o) && (o.constructor === Boolean);
         },
         /**
@@ -46,7 +46,7 @@ AM.$package(function(am){
          * @param {Object} o 判断对象
          * @return {boolean} 是否数值类型
          */
-        isNumber : function(o) {
+        isNumber: function (o) {
             return (o === 0 || o) && o.constructor === Number;
         },
         /**
@@ -55,7 +55,7 @@ AM.$package(function(am){
          * @param {Object} o 判断对象
          * @return {boolean} 是否undefined
          */
-        isUndefined : function(o) {
+        isUndefined: function (o) {
             return typeof(o) === "undefined";
         },
         /**
@@ -64,7 +64,7 @@ AM.$package(function(am){
          * @param {Object} o 判断对象
          * @return {boolean} 是否Null
          */
-        isNull : function(o) {
+        isNull: function (o) {
             return o === null;
         },
         /**
@@ -73,7 +73,7 @@ AM.$package(function(am){
          * @param {Object} o 判断对象
          * @return {boolean} 是否function
          */
-        isFunction : function(o) {
+        isFunction: function (o) {
             return o && (o.constructor === Function);
         },
         /**
@@ -82,7 +82,7 @@ AM.$package(function(am){
          * @param {Object} o 判断对象
          * @return {boolean} 是否字符串
          */
-        isString : function(o) {
+        isString: function (o) {
             return (o === "" || o) && (o.constructor === String);
         },
 
@@ -92,8 +92,8 @@ AM.$package(function(am){
          * @param obj   判断对象
          * @returns {boolean}   是否为空对象
          */
-        isPlainObject : function(obj){
-            for(var n in obj){
+        isPlainObject: function (obj) {
+            for (var n in obj) {
                 return false;
             }
             return true;
@@ -108,11 +108,11 @@ AM.$package(function(am){
          * @param obj   判断对象
          * @returns {boolean}   是否为dom对象
          */
-        isHTMLElement : (typeof HTMLElement === 'object' ?
-            function(obj){
+        isHTMLElement: (typeof HTMLElement === 'object' ?
+            function (obj) {
                 return obj instanceof HTMLElement;
             } :
-            function(obj){
+            function (obj) {
                 return obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string';
             })
     };
