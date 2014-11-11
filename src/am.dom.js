@@ -58,8 +58,7 @@ AM.$package(function (am) {
                     i, l, classNames;
 
                 for (i = 0, l = children.length; i < l; ++i) {
-                    if (classNames = children[i].className
-                        && J.indexOf(classNames.split(' '), className) >= 0) {
+                    if (classNames = children[i].className && am.indexOf(classNames.split(' '), className) >= 0) {
                         elements.push(children[i]);
                     }
                 }
@@ -105,7 +104,7 @@ AM.$package(function (am) {
 
             return result;
 
-        }
+        };
     }
 
     //包装所有的查询函数，增加统一的事件回调
@@ -293,7 +292,7 @@ AM.$package(function (am) {
                         return;
                     }
                     elem.className += " " + className;
-                }
+                };
             }
         })(),
         /**

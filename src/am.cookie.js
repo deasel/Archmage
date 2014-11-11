@@ -13,9 +13,10 @@ AM.$package(function (am) {
         HOUR2SEC = 3600000;
     var cookie = {
         set: function (name, value, domain, path, hour) {
+            var expire;
             if (hour) {
                 var today = new Date();
-                var expire = new Date();
+                expire = new Date();
                 expire.setTime(today.getTime() + HOUR2SEC * hour);
             }
             win.document.cookie = name + "=" + value + "; " + (hour ? ("expires=" + expire.toGMTString() + "; ") : "") + (path ? ("path=" + path + "; ") : "path=/; ") + (domain ? ("domain=" + domain + ";") : ("domain=" + domainPrefix + ";"));

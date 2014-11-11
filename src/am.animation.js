@@ -141,7 +141,10 @@ AM.$package(function (am) {
                 am.each(elems, function (elem) {
                     $D.setStyle(elem, $D.getVendorPropertyName("transition"), "");
                 });
-                onFinished && onFinished.call(self);
+
+                if($T.isFunction(onFinished)){
+                    onFinished.call(self);
+                }
             }, this.duration);
             return this;
         },
@@ -153,10 +156,7 @@ AM.$package(function (am) {
                 transformStr += " translatez(0)";
             }
 
-            var aStr = "all"
-                + ' ' + this.duration / 1000 + 's '
-                + this.runType
-                + ' ' + this.delay / 1000 + 's';
+            var aStr = "all" + ' ' + this.duration / 1000 + 's ' + this.runType + ' ' + this.delay / 1000 + 's';
 
             $D.setStyle(elem, $D.getVendorPropertyName("transition"), aStr);
 

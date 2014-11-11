@@ -69,7 +69,7 @@
 
             for (; i < length; i++) {
                 // Only deal with non-null/undefined values
-                if ((options = arguments[ i ]) != null) {
+                if ((options = arguments[ i ]) !== null) {
                     // Extend the base object
                     for (name in options) {
                         src = target[ name ];
@@ -126,13 +126,14 @@
 
                 var subClass = function () {
                     return new subClass.prototype._init(arguments);
-                }
+                };
 
                 subClass.superClass = superClass.prototype;
                 subClass.callSuper = function (context, func) {
                     var slice = Array.prototype.slice;
                     var a = slice.call(arguments, 2);
-                    var func = subClass.superClass[func];
+
+                    func = subClass.superClass[func];
 
                     if (func) {
                         func.apply(context, a.concat(slice.call(arguments)));
@@ -152,7 +153,7 @@
             } else if (length === 1) {
                 var newClass = function () {
                     return new newClass.prototype._init(arguments);
-                }
+                };
                 newClass.prototype = option;
                 newClass.prototype._init = function (arg) {
                     this.init.apply(this, arg);

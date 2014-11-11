@@ -25,7 +25,6 @@ AM.$package(function (am) {
             for (var key in  param) {
                 qstr.push(encodeURIComponent(key) + '=' + encodeURIComponent(param[key]));
             }
-            ;
             return  qstr.join('&');
         },
         /**
@@ -89,7 +88,7 @@ AM.$package(function (am) {
             xhr.onreadystatechange = function () {
                 if (4 == xhr.readyState) {
                     var status = xhr.status;
-                    if ((status >= 200 && status < 300) || status == 304 || status == 0) {
+                    if ((status >= 200 && status < 300) || status === 304 || status === 0) {
                         var response = xhr.responseText.replace(/(\r|\n|\t)/gi, '');
                         // var m = /callback\((.+)\)/gi.exec( response );
                         // var result = { ret : 998, msg : '解析数据出错，请稍后再试' };
@@ -102,9 +101,8 @@ AM.$package(function (am) {
                         }
                         o.onSuccess && o.onSuccess(json, xhr);
                     } else {
-                        o.onError && o.onError(xhr, +new Date - startTime);
+                        o.onError && o.onError(xhr, +new Date() - startTime);
                     }
-                    ;
                     isComplete = true;
                     if (timer) {
                         clearTimeout(timer);
@@ -113,7 +111,7 @@ AM.$package(function (am) {
 
             };
 
-            var startTime = +new Date;
+            var startTime = +new Date();
             xhr.send(isPost ? qstr : void(0));
 
             if (timeout) {
@@ -135,6 +133,6 @@ AM.$package(function (am) {
         //         saveDataLocal(options);
         //     }
         // }
-    }
+    };
     am.http = http;
 });

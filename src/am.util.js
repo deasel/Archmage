@@ -17,7 +17,7 @@ AM.$package(function(am){
     var preventScroll = function(e){
         if (e.target.type === 'range') { return; }
         e.preventDefault();
-    }
+    };
     var hideScroll = function(){
         setTimeout(function(){
             if(!location.hash){
@@ -28,7 +28,7 @@ AM.$package(function(am){
                 window.scrollTo(0,1);
             }
         },200);
-    }
+    };
 
 
     var util = {
@@ -140,6 +140,6 @@ AM.$package(function(am){
         //     });
         // }
 
-    }
-    J.util = util;
+    };
+    am.util = util;
 });

@@ -41,7 +41,7 @@ AM.$package(function (am) {
                         oldHandler.apply(this, arguments);
                     }
                     return handler.apply(this, arguments);
-                }
+                };
             }
         }
     };
@@ -63,9 +63,9 @@ AM.$package(function (am) {
 
     var $E = {
         on: function (obj, evtType, handler) {
-            var tmpEvtType;
+            var tmpEvtType,i;
             if ($T.isArray(obj)) {
-                for (var i = obj.length; i--;) {
+                for (i = obj.length; i--;) {
                     $E.on(obj[i], evtType, handler);
                 }
                 return;
@@ -73,14 +73,14 @@ AM.$package(function (am) {
             //evtType is a string split by space
             if ($T.isString(evtType) && evtType.indexOf(" ") > 0) {
                 evtType = evtType.split(" ");
-                for (var i = evtType.length; i--;) {
+                for (i = evtType.length; i--;) {
                     $E.on(obj, evtType[i], handler);
                 }
                 return;
             }
             //handler is an array
             if ($T.isArray(handler)) {
-                for (var i = handler.length; i--;) {
+                for (i = handler.length; i--;) {
                     $E.on(obj, evtType, handler[i]);
                 }
                 return;
@@ -93,7 +93,8 @@ AM.$package(function (am) {
                 return;
             }
             //is dom event support
-            if (tmpEvtType = isDomEvent(obj, evtType)) {
+            tmpEvtType = isDomEvent(obj, evtType);
+            if (tmpEvtType) {
                 evtType = tmpEvtType;
                 bindDomEvent(obj, evtType, handler);
                 return;
@@ -121,7 +122,7 @@ AM.$package(function (am) {
             var f = function () {
                 handler.apply(win, arguments);
                 $E.off(obj, evtType, f);
-            }
+            };
             $E.on(obj, evtType, f);
         },
         off: function (obj, evtType, handler) {
@@ -147,8 +148,8 @@ AM.$package(function (am) {
                 }
                 return;
             }
-
-            if (tmpEvtType = isDomEvent(obj, evtType)) {
+            tmpEvtType = isDomEvent(obj, evtType);
+            if (tmpEvtType) {
                 evtType = tmpEvtType;
                 unbindDomEvent(obj, evtType, handler);
                 return;
@@ -188,11 +189,11 @@ AM.$package(function (am) {
         },
         fire: function (obj, evtType) {
             var arg = [].slice.call(arguments, 2),
-                tmpEvtType;
+                evt, tmpEvtType;
             //obj is dom element
             if (tmpEvtType = isDomEvent(obj, evtType)) {
                 evtType = tmpEvtType;
-                var evt = document.createEvent('HTMLEvents');
+                evt = document.createEvent('HTMLEvents');
                 evt.initEvent(evtType, true, true);
                 obj.dispatchEvent(evt);
                 return;
@@ -200,7 +201,7 @@ AM.$package(function (am) {
             //dom event in origin element
             if (obj.elem && (tmpEvtType = isDomEvent(obj.elem, evtType))) {
                 evtType = tmpEvtType;
-                var evt = document.createEvent('HTMLEvents');
+                evt = document.createEvent('HTMLEvents');
                 evt.initEvent(evtType, true, true);
                 obj.elem.dispatchEvent(evt);
                 return;
@@ -314,13 +315,13 @@ AM.$package(function (am) {
             return { x: t[0].clientX, y: t[0].clientY };
         }
         return { x: e.clientX, y: e.clientY };
-    }
+    };
     //计算两点之间距离
     var getDist = function (p1, p2) {
         if (!p1 || !p2) return 0;
         return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
 
-    }
+    };
     //计算两点之间所成角度
     var getAngle = function (p1, p2) {
         var r = Math.atan2(p2.y - p1.y, p2.x - p1.x);
@@ -331,8 +332,8 @@ AM.$package(function (am) {
 
     var customEventHandlers = [];
     var isCustomEvtMatch = function (ch, ele, evtType, handler) {
-        return ch.ele == ele && evtType == ch.evtType && handler == ch.handler
-    }
+        return ch.ele == ele && evtType == ch.evtType && handler == ch.handler;
+    };
     //自定义事件
     var customEvent = {
         _fire: function (ele, evtType, handler) {
@@ -381,12 +382,12 @@ AM.$package(function (am) {
                 if (!touches || touches.length == 1) {//鼠标点击或者单指点击
                     ct_pos = pt_pos = getTouchPos(e);
                 }
-            }
+            };
             var moveEvtHandler = function (e) {
                 // e.stopPropagation();
                 e.preventDefault();
                 ct_pos = getTouchPos(e);
-            }
+            };
             var endEvtHandler = function (e) {
                 // e.stopPropagation();
                 var now = Date.now();
@@ -408,7 +409,7 @@ AM.$package(function (am) {
                 }
                 pt_up_pos = ct_pos;
                 pt_up_time = now;
-            }
+            };
 
             $E.on(ele, startEvt, startEvtHandler);
             $E.on(ele, moveEvt, moveEvtHandler);
@@ -418,7 +419,7 @@ AM.$package(function (am) {
                 ele: ele,
                 evtType: "tap",
                 handler: handler
-            }
+            };
             evtOpt.actions = {};
             evtOpt.actions[startEvt] = startEvtHandler;
             evtOpt.actions[moveEvt] = moveEvtHandler;
@@ -453,16 +454,16 @@ AM.$package(function (am) {
                         }
                     }, HOLD_TIME);
                 }
-            }
+            };
             var moveEvtHandler = function (e) {
                 e.stopPropagation();
                 e.preventDefault();
                 ct_pos = getTouchPos(e);
-            }
+            };
             var endEvtHandler = function (e) {
                 e.stopPropagation();
                 clearTimeout(holdTimeId);
-            }
+            };
 
             $E.on(ele, startEvt, startEvtHandler);
             $E.on(ele, moveEvt, moveEvtHandler);
@@ -472,7 +473,7 @@ AM.$package(function (am) {
                 ele: ele,
                 evtType: "hold",
                 handler: handler
-            }
+            };
             evtOpt.actions = {};
             evtOpt.actions[startEvt] = startEvtHandler;
             evtOpt.actions[moveEvt] = moveEvtHandler;
@@ -499,7 +500,7 @@ AM.$package(function (am) {
                 if (angle >= 135 || angle < -135) return "left";
                 if (angle >= -135 && angle <= -45) return "bottom";
 
-            }
+            };
             var startEvtHandler = function (e) {
                 // e.stopPropagation();
                 var touches = e.touches;
@@ -508,12 +509,12 @@ AM.$package(function (am) {
                     pt_time = Date.now();
 
                 }
-            }
+            };
             var moveEvtHandler = function (e) {
                 // e.stopPropagation();
                 e.preventDefault();
                 ct_pos = getTouchPos(e);
-            }
+            };
             var endEvtHandler = function (e) {
                 // e.stopPropagation();
                 var dir;
@@ -529,7 +530,7 @@ AM.$package(function (am) {
                         direction: dir
                     });
                 }
-            }
+            };
 
             $E.on(ele, startEvt, startEvtHandler);
             $E.on(ele, moveEvt, moveEvtHandler);
@@ -539,7 +540,7 @@ AM.$package(function (am) {
                 ele: ele,
                 evtType: "swipe",
                 handler: handler
-            }
+            };
             evtOpt.actions = {};
             evtOpt.actions[startEvt] = startEvtHandler;
             evtOpt.actions[moveEvt] = moveEvtHandler;
@@ -562,7 +563,7 @@ AM.$package(function (am) {
                     pt_len = getDist(pt_pos1, pt_pos2);
                     pt_angle = getAngle(pt_pos1, pt_pos2);
                 }
-            }
+            };
             var moveEvtHandler = function (e) {
                 e.preventDefault();
                 var touches = e.touches;
@@ -584,7 +585,7 @@ AM.$package(function (am) {
                         rotate: rotation
                     });
                 }
-            }
+            };
 
             $E.on(ele, startEvt, startEvtHandler);
             $E.on(ele, moveEvt, moveEvtHandler);
@@ -592,7 +593,7 @@ AM.$package(function (am) {
                 ele: ele,
                 evtType: "transform",
                 handler: handler
-            }
+            };
             evtOpt.actions = {};
             evtOpt.actions[startEvt] = startEvtHandler;
             evtOpt.actions[moveEvt] = moveEvtHandler;
@@ -615,7 +616,7 @@ AM.$package(function (am) {
                 scrollTimeId = setTimeout(function () {
                     isScrolling = false;
                 }, 250);
-            }
+            };
 
             $E.on(ele, "scroll", scrollHandler);
 
@@ -625,7 +626,7 @@ AM.$package(function (am) {
                 handler: handler
             };
             evtOpt.actions = {};
-            evtOpt.actions["scroll"] = scrollHandler;
+            evtOpt.actions.scroll = scrollHandler;
             customEventHandlers.push(evtOpt);
         },
         scrollend: function (ele, handler) {
@@ -639,7 +640,7 @@ AM.$package(function (am) {
                         type: "scrollend"
                     });
                 }, 250);
-            }
+            };
             $E.on(ele, "scroll", scrollHandler);
 
             var evtOpt = {
@@ -648,7 +649,7 @@ AM.$package(function (am) {
                 handler: handler
             };
             evtOpt.actions = {};
-            evtOpt.actions["scroll"] = scrollHandler;
+            evtOpt.actions.scroll = scrollHandler;
             customEventHandlers.push(evtOpt);
         },
         scrolltobottom: function (ele, handler) {
@@ -662,7 +663,7 @@ AM.$package(function (am) {
                     });
 
                 }
-            }
+            };
             $E.on(ele, "scroll", scrollHandler);
 
             var evtOpt = {
@@ -671,7 +672,7 @@ AM.$package(function (am) {
                 handler: handler
             };
             evtOpt.actions = {};
-            evtOpt.actions["scroll"] = scrollHandler;
+            evtOpt.actions.scroll = scrollHandler;
             customEventHandlers.push(evtOpt);
         },
         //兼容性更好的orientationchange事件，这里使用resize实现。不覆盖原生orientation change 和 resize事件
@@ -696,7 +697,7 @@ AM.$package(function (am) {
                     orientation: orientation
                 });
                 pre_w = current_w;
-            }
+            };
             $E.on(window, "resize", resizeHandler);
 
             var evtOpt = {
@@ -705,10 +706,10 @@ AM.$package(function (am) {
                 handler: handler
             };
             evtOpt.actions = {};
-            evtOpt.actions["resize"] = resizeHandler;
+            evtOpt.actions.resize = resizeHandler;
             customEventHandlers.push(evtOpt);
         }
-    }
+    };
 
     var transitionEndNames = [
         'transitionend',
