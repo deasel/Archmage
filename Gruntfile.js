@@ -15,9 +15,6 @@ module.exports = function (grunt) {
 
         concat: {
             combine: {
-                options:{
-                    separator: ';'
-                },
                 files: [{
                     src: modules,
                     dest: 'dest/<%= pkg.name %>-<%= pkg.version %>.js'
