@@ -17,7 +17,7 @@
             var nsArr = name.split("."),
                 ns = global;
 
-            for (var i = 0 , l = nsArr.length; i < l; i++) {
+            for (var i = 0, l = nsArr.length; i < l; i++) {
                 var n = nsArr[i];
                 ns[n] = ns[n] || {};
                 ns = ns[n];
@@ -30,11 +30,9 @@
             if (typeof ns == "function") {
                 func = ns;
                 target = window;
-            }
-            else if (typeof ns == "string") {
+            } else if (typeof ns == "string") {
                 target = this.$namespace(ns);
-            }
-            else if (typeof ns == "object") {
+            } else if (typeof ns == "object") {
                 target = ns;
             }
             func.call(target, this);
@@ -52,7 +50,7 @@
                 deep = target;
 
                 // skip the boolean and the target
-                target = arguments[ i ] || {};
+                target = arguments[i] || {};
                 i++;
             }
 
@@ -69,11 +67,11 @@
 
             for (; i < length; i++) {
                 // Only deal with non-null/undefined values
-                if ((options = arguments[ i ]) !== null) {
+                if ((options = arguments[i]) !== null) {
                     // Extend the base object
                     for (name in options) {
-                        src = target[ name ];
-                        copy = options[ name ];
+                        src = target[name];
+                        copy = options[name];
 
                         // Prevent never-ending loop
                         if (target === copy) {
@@ -81,7 +79,7 @@
                         }
 
                         // Recurse if we're merging plain objects or arrays
-                        if (deep && copy && ( $T.isPlainObject(copy) || (copyIsArray = $T.isArray(copy)) )) {
+                        if (deep && copy && ($T.isPlainObject(copy) || (copyIsArray = $T.isArray(copy)))) {
                             if (copyIsArray) {
                                 copyIsArray = false;
                                 clone = src && $T.isArray(src) ? src : [];
@@ -91,11 +89,11 @@
                             }
 
                             // Never move original objects, clone them
-                            target[ name ] = AM.extend(deep, clone, copy);
+                            target[name] = AM.extend(deep, clone, copy);
 
                             // Don't bring in undefined values
                         } else if (copy !== undefined) {
-                            target[ name ] = copy;
+                            target[name] = copy;
                         }
                     }
                 }
@@ -114,20 +112,15 @@
         Class: function () {
             var length = arguments.length;
             var option = arguments[length - 1];
-            option.init = option.init || function () {
-            };
+            option.init = option.init || function () {};
 
             if (length === 2) {
                 var superClass = arguments[0].extend;
-
-                var tempClass = function () {
-                };
+                var tempClass = function () {};
                 tempClass.prototype = superClass.prototype;
-
                 var subClass = function () {
                     return new subClass.prototype._init(arguments);
                 };
-
                 subClass.superClass = superClass.prototype;
                 subClass.callSuper = function (context, func) {
                     var slice = Array.prototype.slice;
@@ -165,11 +158,11 @@
         },
         // Convert pseudo array object to real array
         toArray: function (pseudoArrayObj) {
-            var arr = [], i, l;
+            var arr = [],
+                i, l;
             try {
                 return arr.slice.call(pseudoArrayObj);
-            }
-            catch (e) {
+            } catch (e) {
                 arr = [];
                 for (i = 0, l = pseudoArrayObj.length; i < l; ++i) {
                     arr[i] = pseudoArrayObj[i];
@@ -182,8 +175,7 @@
             //数组或类数组对象
             if (arr.length) {
                 return [].indexOf.call(arr, elem);
-            }
-            else if ($T.isObject(arr)) {
+            } else if ($T.isObject(arr)) {
                 for (var i in arr) {
                     if (arr.hasOwnProperty(i) && arr[i] === elem) {
                         return i;
@@ -195,11 +187,12 @@
             var $T = AM.type;
             if (arr.length) {
                 return [].every.call(arr, callback);
-            }
-            else if ($T.isObject(arr)) {
+            } else if ($T.isObject(arr)) {
                 var flag = true;
                 this.each(arr, function (e, i, arr) {
-                    if (!callback(e, i, arr)) flag = false;
+                    if (!callback(e, i, arr)) {
+                        flag = false;
+                    }
                 });
                 return flag;
             }
@@ -207,11 +200,12 @@
         some: function (arr, callback) {
             if (arr.length) {
                 return [].some.call(arr, callback);
-            }
-            else if ($T.isObject(arr)) {
+            } else if ($T.isObject(arr)) {
                 var flag = false;
                 this.each(arr, function (e, i, arr) {
-                    if (callback(e, i, arr)) flag = true;
+                    if (callback(e, i, arr)) {
+                        flag = true;
+                    }
                 });
                 return flag;
             }
@@ -220,11 +214,11 @@
             var $T = AM.type;
             if (arr.length) {
                 return [].forEach.call(arr, callback);
-            }
-            else if ($T.isObject(arr)) {
+            } else if ($T.isObject(arr)) {
                 for (var i in arr) {
-                    if (arr.hasOwnProperty(i))
-                        if (callback.call(arr[i], arr[i], i, arr) === false) return;
+                    if (arr.hasOwnProperty(i) && callback.call(arr[i], arr[i], i, arr) === false) {
+                        return;
+                    }
                 }
             }
         },
@@ -232,11 +226,11 @@
             var $T = AM.type;
             if (arr.length) {
                 [].map.call(arr, callback);
-            }
-            else if ($T.isObject(arr)) {
+            } else if ($T.isObject(arr)) {
                 for (var i in arr) {
-                    if (arr.hasOwnProperty(i))
+                    if (arr.hasOwnProperty(i)) {
                         arr[i] = callback.call(arr[i], arr[i], i, arr);
+                    }
                 }
             }
         },
@@ -244,8 +238,7 @@
             var $T = AM.type;
             if (arr.length) {
                 return [].filter.call(arr, callback);
-            }
-            else if ($T.isObject(arr)) {
+            } else if ($T.isObject(arr)) {
                 var newObj = {};
                 this.each(arr, function (e, i) {
                     if (callback(e, i)) {

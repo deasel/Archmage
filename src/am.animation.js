@@ -38,11 +38,9 @@ AM.$package(function (am) {
         setElems: function (selector) {
             if ($T.isString(selector)) {
                 this.elems = $D.$(selector);
-            }
-            else if ($T.isArray(selector)) {
+            } else if ($T.isArray(selector)) {
                 this.elems = selector;
-            }
-            else if (selector.tagName) {
+            } else if (selector.tagName) {
                 this.elems = [selector];
             }
             return this;
@@ -84,10 +82,11 @@ AM.$package(function (am) {
             return this;
         },
         translate: function (translateX, translateY, translateZ) {
-            if (support3d && translateZ)
+            if (support3d && translateZ) {
                 this.transformArr.push("translate3d" + '(' + translateX + ',' + translateY + ',' + translateZ + ')');
-            else
+            } else {
                 this.transformArr.push("translate" + '(' + translateX + ',' + translateY + ')');
+            }
             return this;
         },
         translateX: function (translateX) {
@@ -112,14 +111,15 @@ AM.$package(function (am) {
         },
         setStyle: function (styleName, styleValue) {
             var s = "";
-            if ($T.isUndefined(this.styleStr)) this.styleStr = "";
+            if ($T.isUndefined(this.styleStr)) {
+                this.styleStr = "";
+            }
             //样式变化
             if ($T.isObject(styleName)) {
                 am.each(styleName, function (sv, sn) {
                     s += $D.toCssStyle($D.getVendorPropertyName(sn)) + ":" + sv + ";";
                 });
-            }
-            else if ($T.isString(styleName)) {
+            } else if ($T.isString(styleName)) {
                 s += $D.toCssStyle($D.getVendorPropertyName(styleName)) + ":" + styleValue + ";";
             }
             this.styleStr += s;
@@ -142,7 +142,7 @@ AM.$package(function (am) {
                     $D.setStyle(elem, $D.getVendorPropertyName("transition"), "");
                 });
 
-                if($T.isFunction(onFinished)){
+                if ($T.isFunction(onFinished)) {
                     onFinished.call(self);
                 }
             }, this.duration);

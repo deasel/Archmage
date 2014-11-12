@@ -56,7 +56,7 @@ AM.$package(function (am) {
          * @return {boolean} 是否undefined
          */
         isUndefined: function (o) {
-            return typeof(o) === "undefined";
+            return typeof (o) === "undefined";
         },
         /**
          * 判断是否Null
