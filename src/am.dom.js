@@ -11,13 +11,13 @@ AM.$package(function (am) {
     var global = window,
         doc = global.document,
         $T = am.type,
-//        tagNameExpr = /^[\w-]+$/,
-//        idExpr = /^#([\w-]*)$/,
-//        classExpr = /^\.([\w-]+)$/,
-//        selectorEngine,
+        //        tagNameExpr = /^[\w-]+$/,
+        //        idExpr = /^#([\w-]*)$/,
+        //        classExpr = /^\.([\w-]+)$/,
+        //        selectorEngine,
 
         hasClassListProperty = 'classList' in doc.documentElement,
-        vendors = ['o', 'ms' , 'moz' , 'webkit'],
+        vendors = ['o', 'ms', 'moz', 'webkit'],
         div = doc.createElement('div');
 
     var queryModule = {
@@ -75,7 +75,8 @@ AM.$package(function (am) {
      */
     function queryFactory(queryEngine) {
         return function () {
-            var args = arguments, result,
+            var args = arguments,
+                result,
                 argsLen = args.length,
                 selector = args[0],
                 context = args[1] || doc,
@@ -157,7 +158,9 @@ AM.$package(function (am) {
          */
         remove: function (node) {
             var context = node.parentNode;
-            if (context) context.removeChild(node);
+            if (context) {
+                context.removeChild(node);
+            }
         },
 
         /**
@@ -167,7 +170,9 @@ AM.$package(function (am) {
          * @returns {*|string}
          */
         toDomStyle: function (cssStyle) {
-            if (!$T.isString(cssStyle)) return;
+            if (!$T.isString(cssStyle)) {
+                return;
+            }
             return cssStyle.replace(/\-[a-z]/g, function (m) {
                 return m.charAt(1).toUpperCase();
             });
@@ -180,7 +185,9 @@ AM.$package(function (am) {
          * @returns {*|string}
          */
         toCssStyle: function (domStyle) {
-            if (!$T.isString(domStyle)) return;
+            if (!$T.isString(domStyle)) {
+                return;
+            }
             return domStyle.replace(/[A-Z]/g, function (m) {
                 return '-' + m.toLowerCase();
             });
@@ -246,7 +253,9 @@ AM.$package(function (am) {
         getVendorPropertyName: function (prop) {
             var style = div.style;
             var _prop;
-            if (prop in style) return prop;
+            if (prop in style) {
+                return prop;
+            }
             // _prop = prop;
             _prop = prop.charAt(0).toUpperCase() + prop.substr(1);
             for (var i = vendors.length; i--;) {
@@ -285,8 +294,7 @@ AM.$package(function (am) {
                     }
                     elem.classList.add(className);
                 };
-            }
-            else {
+            } else {
                 return function (elem, className) {
                     if (!elem || !className || $D.hasClass(elem, className)) {
                         return;
@@ -351,8 +359,7 @@ AM.$package(function (am) {
             var $D = AM.dom;
             if ($D.hasClass(ele, className)) {
                 $D.removeClass(ele, className);
-            }
-            else {
+            } else {
                 $D.addClass(ele, className);
             }
         },
