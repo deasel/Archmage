@@ -211,11 +211,15 @@
             }
         },
         each: function (arr, callback) {
-            var $T = AM.type;
+            var $T = AM.type, i, l;
             if (arr.length) {
-                return [].forEach.call(arr, callback);
+                for (i = 0, l = arr.length; i < l; i++) {
+                    if (callback.call(arr[i], arr[i], i, arr) === false) {
+                        return;
+                    }
+                }
             } else if ($T.isObject(arr)) {
-                for (var i in arr) {
+                for (i in arr) {
                     if (arr.hasOwnProperty(i) && callback.call(arr[i], arr[i], i, arr) === false) {
                         return;
                     }
