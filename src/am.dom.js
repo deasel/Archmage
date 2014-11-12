@@ -5,7 +5,7 @@
  * @version     2014-10-27
  * @version     0.0.1
  *
- * @depend      am.base.js  am.type.js
+ * @depend      am.base.js  am.type.js  am.browser.js
  */
 AM.$package(function (am) {
     var global = window,

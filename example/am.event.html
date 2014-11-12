@@ -17,22 +17,29 @@
     <script type="text/javascript" src="../src/am.type.js"></script>
     <script type="text/javascript" src="../src/am.dom.js"></script>
     <script type="text/javascript" src="../src/am.platform.js"></script>
+    <script type="text/javascript" src="../src/am.browser.js"></script>
     <script type="text/javascript" src="../src/am.support.js"></script>
     <script type="text/javascript" src="../src/am.event.js"></script>
 
     <script type="text/javascript">
     var $D = AM.dom,
         $E = AM.event;
-//    $E.on($D.id('link'), 'click', function(){
-//        $D.className('result', function(){
-//            this.innerHTML = 'click' + new Date().getTime();
-//        });
+
+//    $E.on(document, 'domRender', function(){
+//        alert(11);
 //    });
-    $E.on($D.id('link'), 'tap', function(){
-        $D.className('result', function(){
-            this.innerHTML = 'click' + new Date().getTime();
-        });
+    $E.domReady(function(){
+        alert('dom ready2');
     });
+
+    $E.domReady(function(){
+        alert('dom ready1');
+    });
+
+    window.onload = function(){
+        alert('window onload');
+    };
+
     </script>
 </body>
 </html>

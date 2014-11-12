@@ -120,6 +120,14 @@ AM.$package(function (am) {
         version: 0,
 
         /**
+         * 是否是webkite内核
+         *
+         * @description {Number} 用户使用的浏览器是否为webkite内核
+         * @type Number
+         */
+//        webkit : false,
+
+        /**
          * 用户使用的浏览器的版本号，如果是0表示不是此浏览器
          *
          *
@@ -184,7 +192,7 @@ AM.$package(function (am) {
          *
          * @description {boolean} 检测是否支持css3属性borderimage
          */
-        //borderimage: false,
+//        borderimage: false,
 
         /**
          * 设置浏览器类型和版本
@@ -196,8 +204,8 @@ AM.$package(function (am) {
          */
         set: function (name, ver) {
             this.name = name;
-            this.version = ver;
-//            this[name] = ver;
+            this.version = Number(ver);
+            this[name] = ver;
         }
     };
 
@@ -210,14 +218,18 @@ AM.$package(function (am) {
         'adobeAir': 'adobeair\/',
         'safari': 'version\/'
     };
-
+    var regMsg;
     for (var name in browserList) {
-        s = ua.match(new RegExp(browserList[name] + EXTEND));
+        regMsg = browserList[name] + EXTEND + (name === 'safari' ?  + '.*safari' : '');
+        s = ua.match(new RegExp(regMsg));
         if (s) {
             browser.set(name, toFixedVersion(s[1]));
             break;
         }
     }
+
+    //webkit
+    (s = ua.match(/webkit\/([\d.]+)/)) ? (browser.webkit = Number(s[1])) : 0;
 
     am.browser = browser;
 

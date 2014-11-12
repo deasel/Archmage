@@ -1,7 +1,7 @@
 //暴露函数
 module.exports = function (grunt) {
     //可以在这里配置需要打包的模块，在删减的时候，最好不要破坏合并顺序
-    var modules = ['base', 'type', 'dom', 'browser', 'cookie', 'http', 'platform', 'support', 'browser', 'animation', 'util'];
+    var modules = ['base', 'type', 'browser', 'cookie', 'http', 'platform', 'support', 'event', 'dom', 'animation', 'util'];
 
     for(var i = 0, len = modules.length; i < len; i++){
         modules[i] = 'src/am.' + modules[i] + '.js';

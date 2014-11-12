@@ -5,13 +5,16 @@
  * @version     2014-10-27
  * @version     0.0.1
  *
- * @depend      am.base.js  am.type.js  am.support.js
+ * @depend      am.base.js  am.type.js  am.support.js   am.browser.js   am.platform.js
  */
 AM.$package(function (am) {
 
     var $T = am.type,
         $S = am.support,
-        win = window;
+        browser = am.browser,
+        win = window,
+        doc = win.document;
+
 
     // 如果是DOM事件，返回正确的事件名；否则返回布尔值 `false`
     var isDomEvent = function (obj, evtType) {
@@ -193,7 +196,7 @@ AM.$package(function (am) {
             //obj is dom element
             if (tmpEvtType = isDomEvent(obj, evtType)) {
                 evtType = tmpEvtType;
-                evt = document.createEvent('HTMLEvents');
+                evt = doc.createEvent('HTMLEvents');
                 evt.initEvent(evtType, true, true);
                 obj.dispatchEvent(evt);
                 return;
@@ -201,7 +204,7 @@ AM.$package(function (am) {
             //dom event in origin element
             if (obj.elem && (tmpEvtType = isDomEvent(obj.elem, evtType))) {
                 evtType = tmpEvtType;
-                evt = document.createEvent('HTMLEvents');
+                evt = doc.createEvent('HTMLEvents');
                 evt.initEvent(evtType, true, true);
                 obj.elem.dispatchEvent(evt);
                 return;
@@ -235,7 +238,7 @@ AM.$package(function (am) {
                 l = level || 3,
                 s = level !== -1,
                 p = property || 'cmd',
-                end = parent || document.body;
+                end = parent || doc.body;
             if (t === end) {
                 return t.getAttribute(p) ? t : null;
             }
@@ -261,7 +264,7 @@ AM.$package(function (am) {
             var defaultEvent = am.platform.touchDevice ? "tap" : "click";
             if (arguments.length === 1) {
                 commands = targetElement;
-                targetElement = document.body;
+                targetElement = doc.body;
                 eventName = defaultEvent;
             } else if (arguments.length === 2) {
                 commands = eventName;
@@ -292,8 +295,18 @@ AM.$package(function (am) {
                     }
                 }
             });
-        }
+        },
 
+        /**
+         * dom资源加载完成后触发的方法
+         *
+         * @param {function} handle
+         */
+        domReady: function(handle){
+            if($T.isFunction(handle)){
+                am.event.on(doc, '_domRender', handle);
+            }
+        }
     };
 
     var startEvt, moveEvt, endEvt;
@@ -653,7 +666,7 @@ AM.$package(function (am) {
             customEventHandlers.push(evtOpt);
         },
         scrolltobottom: function (ele, handler) {
-            var body = document.body;
+            var body = doc.body;
             var scrollHandler = function (e) {
                 if (body.scrollHeight <= body.scrollTop + window.innerHeight) {
                     handler.call(ele, {
@@ -717,6 +730,54 @@ AM.$package(function (am) {
         'MozTransitionEnd',
         'MSTransitionEnd'
     ];
+
+    //注册domReady事件
+    (function(){
+        var conf = {enableMozDOMReady:true},
+            isReady = false;
+            doReady = function (){
+                if( isReady ) return;
+                //确保onready只执行一次
+                isReady = true;
+                am.event.fire(doc, '_domRender');
+            };
+
+        //如果是IE，则通过轮询判断doScroll方法，以判断是否触发domRender事件
+        if( browser.name === 'ie' ){        /* IE */
+            (function(){
+                if ( isReady ) return;
+                try {
+                    doc.documentElement.doScroll("left");
+                } catch( error ) {
+                    setTimeout( arguments.callee, 0 );
+                    return;
+                }
+                doReady();
+            })();
+            window.attachEvent('onload',doReady);
+
+        } else if (browser.webkit && browser.webkit < 525){        /* Webkit */
+
+            (function(){
+                if( isReady ) return;
+                if (/loaded|complete/.test(doc.readyState)){
+                    doReady();
+                }else{
+                    setTimeout( arguments.callee, 0 );
+                }
+            })();
+            window.addEventListener('load', doReady, false);
+
+        }else{          /* FF Opera 高版webkit 其他 */
+
+            if( !browser.name === 'firefox' || browser.version != 2 || conf.enableMozDOMReady)
+                doc.addEventListener( "DOMContentLoaded", function(){
+                    doc.removeEventListener( "DOMContentLoaded", arguments.callee, false );
+                    doReady();
+                }, false );
+            window.addEventListener('load', doReady, false);
+        }
+    })();
 
     am.event = $E;
 });
