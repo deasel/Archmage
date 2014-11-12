@@ -13,7 +13,6 @@ AM.$package(function (am) {
         EXTEND = '([\\d.]+)',
         ua = navigator.userAgent.toLowerCase(),
         plug = navigator.plugins,
-
         browserList;
 
     /**
@@ -42,7 +41,8 @@ AM.$package(function (am) {
          * @name features
          * @memberOf browser
          */
-        features: /**
+        features:
+        /**
          * @lends browser.features
          */
         {
@@ -67,7 +67,8 @@ AM.$package(function (am) {
          * @name plugins
          * @memberOf browser
          */
-        plugins: /**
+        plugins:
+        /**
          * @lends browser.plugins
          */
         {
@@ -86,8 +87,7 @@ AM.$package(function (am) {
                             new ActiveXObject('ShockwaveFlash.ShockwaveFlash.' + startVer);
                             ver = toFixedVersion(startVer);
                             break;
-                        } catch (e) {
-                        }
+                        } catch (e) {}
                     }
                 }
 
@@ -134,7 +134,7 @@ AM.$package(function (am) {
          * @description {Number} 用户使用的浏览器的版本号，如果是0表示不是此浏览器
          * @type Number
          */
-//        ie: 0,
+        //        ie: 0,
 
         /**
          * 用户使用的浏览器的版本号，如果是0表示不是此浏览器
@@ -143,7 +143,7 @@ AM.$package(function (am) {
          * @description {Number} 用户使用的浏览器的版本号，如果是0表示不是此浏览器
          * @type Number
          */
-//        firefox: 0,
+        //        firefox: 0,
 
         /**
          * 用户使用的浏览器的版本号，如果是0表示不是此浏览器
@@ -152,7 +152,7 @@ AM.$package(function (am) {
          * @description {Number} 用户使用的浏览器的版本号，如果是0表示不是此浏览器
          * @type Number
          */
-//        chrome: 0,
+        //        chrome: 0,
 
 
         /**
@@ -162,7 +162,7 @@ AM.$package(function (am) {
          * @description {Number} 用户使用的浏览器的版本号，如果是0表示不是此浏览器
          * @type Number
          */
-//        opera: 0,
+        //        opera: 0,
 
         /**
          * 用户使用的浏览器的版本号，如果是0表示不是此浏览器
@@ -171,7 +171,7 @@ AM.$package(function (am) {
          * @description {Number} 用户使用的浏览器的版本号，如果是0表示不是此浏览器
          * @type Number
          */
-//        safari: 0,
+        //        safari: 0,
 
         /**
          * 用户使用的浏览器的版本号，如果是0表示不是此浏览器
@@ -180,12 +180,12 @@ AM.$package(function (am) {
          * @description {Number} 用户使用的浏览器的版本号，如果是0表示不是此浏览器
          * @type Number
          */
-//        mobileSafari: 0,
+        //        mobileSafari: 0,
 
         /**
          * 用户使用的是否是adobe 的air内嵌浏览器
          */
-//        adobeAir: 0,
+        //        adobeAir: 0,
 
         /**
          * 是否支持css3的borderimage

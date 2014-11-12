@@ -7,7 +7,7 @@
  *
  * @depend      am.base.js  am.type.js  am.dom.js
  */
-AM.$package(function (am) {
+AM.$package(function(am) {
     var win = window,
         doc = win.document,
         nav = win.navigator,
@@ -19,7 +19,7 @@ AM.$package(function (am) {
          *
          * @return {boolean} 是否支持fixed
          */
-        fixed: (function () {
+        fixed: (function() {
             var container = document.body;
             var el = $D.node('div');
             $D.setStyle(el, {
@@ -35,10 +35,11 @@ AM.$package(function (am) {
             container.scrollTop = 500;
 
             var elementTop = el.getBoundingClientRect().top;
-            if (originalHeight)
+            if (originalHeight) {
                 $D.setStyle(container, "height", originalHeight + "px");
-            else
+            } else {
                 $D.setStyle(container, "height", "");
+            }
 
             container.removeChild(el);
             container.scrollTop = originalScrollTop;
@@ -49,13 +50,12 @@ AM.$package(function (am) {
          *
          * @return {string} 可用事件名
          */
-        transitionend: (function () {
+        transitionend: (function() {
             var ret, endEventNames, div, handler, i;
 
             if ('ontransitionend' in win) {
                 return 'transitionend';
-            }
-            else if ('onwebkittransitionend' in win) {
+            } else if ('onwebkittransitionend' in win) {
                 return 'webkitTransitionEnd';
             }
             // IE10+
@@ -73,7 +73,7 @@ AM.$package(function (am) {
                     'oTransitionEnd'
                 ];
                 div = doc.createElement('div');
-                handler = function (e) {
+                handler = function(e) {
                     var i = endEventNames.length;
                     while (i--) {
                         this.removeEventListener(endEventNames[i], handler);
@@ -96,9 +96,9 @@ AM.$package(function (am) {
                     div.addEventListener(endEventNames[i], handler, false);
                 }
                 doc.documentElement.appendChild(div);
-                setTimeout(function () {
+                setTimeout(function() {
                     div.style.top = '100px';
-                    setTimeout(function () {
+                    setTimeout(function() {
                         div.parentNode.removeChild(div);
                         div = null;
                         handler = null;
@@ -112,7 +112,7 @@ AM.$package(function (am) {
          *
          * @return {Object} 可用audio格式列表
          */
-        audio: (function () {
+        audio: (function() {
             var elem = document.createElement('audio'),
                 result,
                 NOT_SUPPORT_RE = /^no$/i,
@@ -121,14 +121,13 @@ AM.$package(function (am) {
             try {
                 if (elem.canPlayType) {
                     result = {};
-                    result.mp3 = elem.canPlayType('audio/mpeg;').replace(NOT_SUPPORT_RE, EMPTY_STR);
+                    result.mp3 = elem.canPlayType('audio/mpeg;').replace(NOT_SUPPORT_RE, EMPTY_STR
+);
                     result.wav = elem.canPlayType('audio/wav; codecs="1"').replace(NOT_SUPPORT_RE, EMPTY_STR);
                     result.ogg = elem.canPlayType('audio/ogg; codecs="vorbis"').replace(NOT_SUPPORT_RE, EMPTY_STR);
                     result.m4a = (elem.canPlayType('audio/x-m4a;') || elem.canPlayType('audio/aac;')).replace(NOT_SUPPORT_RE, EMPTY_STR);
                 }
-            }
-            catch (e) {
-            }
+            } catch (e) {}
 
             return result;
         })(),
@@ -137,24 +136,20 @@ AM.$package(function (am) {
          *
          * @return {boolean} 是否安装了flash插件
          */
-        flash: (function () {
+        flash: (function() {
             if (nav.plugins && nav.plugins.length && nav.plugins['Shockwave Flash']) {
                 return true;
-            }
-            else if (nav.mimeTypes && nav.mimeTypes.length) {
+            } else if (nav.mimeTypes && nav.mimeTypes.length) {
                 var mimeType = nav.mimeTypes['application/x-shockwave-flash'];
                 return mimeType && mimeType.enabledPlugin;
-            }
-            else {
+            } else {
                 var ax;
                 try {
                     if (ActiveXObject) {
                         ax = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
                         return true;
                     }
-                }
-                catch (e) {
-                }
+                } catch (e) {}
             }
             return false;
         })()
