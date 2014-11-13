@@ -10,7 +10,14 @@
 //type
 AM.$package(function (am) {
 
-    var ots = Object.prototype.toString;
+    var ots = Object.prototype.toString,
+        _object = {};
+
+    function isType(type) {
+        return function(obj) {
+            return _object.toString.call(obj) == "[object " + type + "]"
+        }
+    }
 
     am.type = {
         /**
@@ -19,36 +26,28 @@ AM.$package(function (am) {
          * @param {Object} o 判断对象
          * @return {boolean} 是否数组
          */
-        isArray: function (o) {
-            return o && (o.constructor === Array || ots.call(o) === "[object Array]");
-        },
+        isArray: Array.isArray || isType("Array"),
         /**
          * 判断是否Object
          *
          * @param {Object} o 判断对象
          * @return {boolean} 是否Object
          */
-        isObject: function (o) {
-            return o && (o.constructor === Object || ots.call(o) === "[object Object]");
-        },
+        isObject: isType("Object"),
         /**
          * 判断是否布尔类型
          *
          * @param {Object} o 判断对象
          * @return {boolean} 是否布尔类型
          */
-        isBoolean: function (o) {
-            return (o === false || o) && (o.constructor === Boolean);
-        },
+        isBoolean : isType('Boolean'),
         /**
          * 判断是否数值类型
          *
          * @param {Object} o 判断对象
          * @return {boolean} 是否数值类型
          */
-        isNumber: function (o) {
-            return (o === 0 || o) && o.constructor === Number;
-        },
+        isNumber: isType('Number'),
         /**
          * 判断是否undefined
          *
@@ -73,18 +72,14 @@ AM.$package(function (am) {
          * @param {Object} o 判断对象
          * @return {boolean} 是否function
          */
-        isFunction: function (o) {
-            return o && (o.constructor === Function);
-        },
+        isFunction: isType("Function"),
         /**
          * 判断是否字符串
          *
          * @param {Object} o 判断对象
          * @return {boolean} 是否字符串
          */
-        isString: function (o) {
-            return (o === "" || o) && (o.constructor === String);
-        },
+        isString: isType("String"),
 
         /**
          * 判断是否为空对象
