@@ -8,11 +8,12 @@
 </head>
 <body>
     <iframe src="fuckphp.html"></iframe>
+    <a href="javascript:;" id="node">I am a link</a>
     <script type="text/javascript">
 
 //        console.log(AM.type.isNumber(new Number(1)));//得到false，预期true
 //        console.log(AM.type.isBoolean(new Boolean(true)));//得到false，预期true
-
+    alert(AM.type.isHTMLElement(document.getElementById('node')));
     </script>
 </body>
 </html>

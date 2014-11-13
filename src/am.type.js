@@ -10,8 +10,7 @@
 //type
 AM.$package(function (am) {
 
-    var ots = Object.prototype.toString,
-        _object = {};
+    var _object = {};
 
     function isType(type) {
         return function(obj) {
@@ -103,12 +102,8 @@ AM.$package(function (am) {
          * @param obj   判断对象
          * @returns {boolean}   是否为dom对象
          */
-        isHTMLElement: (typeof HTMLElement === 'object' ?
-            function (obj) {
-                return obj instanceof HTMLElement;
-            } :
-            function (obj) {
-                return obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string';
-            })
+        isHTMLElement: function (obj) {
+            return obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string';
+        }
     };
 });
