@@ -37,7 +37,7 @@
             }
             func.call(target, this);
         },
-        extend: function (destination, source) {
+        extend: function () {
             var options, name, src, copy, copyIsArray, clone,
                 $T = AM.type,
                 target = arguments[0] || {},
