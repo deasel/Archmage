@@ -13,7 +13,9 @@ AM.$package(function (am) {
         $S = am.support,
         browser = am.browser,
         win = window,
-        doc = win.document;
+        doc = win.document,
+
+        isReady = false;
 
 
     // 如果是DOM事件，返回正确的事件名；否则返回布尔值 `false`
@@ -214,7 +216,7 @@ AM.$package(function (am) {
                     // if(!arg[0]) arg[0] = {};
                     // arg[0].type = evtType;
                     // try{
-                    handler[i].apply(window, arg);
+                    handler[i].apply(obj, arg);
                     // } catch(e){ window.console && console.log && console.log(e.message); };
 
                 }
@@ -301,9 +303,13 @@ AM.$package(function (am) {
          *
          * @param {function} handle
          */
-        domReady: function(handle){
-            if($T.isFunction(handle)){
-                am.event.on(doc, '_domRender', handle);
+        domReady: function (handle) {
+            if ($T.isFunction(handle)) {
+                if(isReady === true){
+                    handle.call(win);
+                }else{
+                    am.event.on(doc, '_domRender', handle);
+                }
             }
         }
     };
@@ -750,53 +756,53 @@ AM.$package(function (am) {
         'MSTransitionEnd'
     ];
 
-    //注册domReady事件
     (function(){
-        var conf = {enableMozDOMReady:true},
-            isReady = false;
-            doReady = function (){
-                if( isReady ) return;
-                //确保onready只执行一次
-                isReady = true;
-                am.event.fire(doc, '_domRender');
-            };
+        //注册domReady事件
+        var conf = {enableMozDOMReady: true};
+        doReady = function () {
+            if (isReady) return;
+            //确保onready只执行一次
+            isReady = true;
+            am.event.fire(doc, '_domRender');
+        };
 
         //如果是IE，则通过轮询判断doScroll方法，以判断是否触发domRender事件
-        if( browser.name === 'ie' ){        /* IE */
-            (function(){
-                if ( isReady ) return;
+        if (browser.name === 'ie') {        /* IE */
+            (function () {
+                if (isReady) return;
                 try {
                     doc.documentElement.doScroll("left");
-                } catch( error ) {
-                    setTimeout( arguments.callee, 0 );
+                } catch (error) {
+                    setTimeout(arguments.callee, 0);
                     return;
                 }
                 doReady();
             })();
-            window.attachEvent('onload',doReady);
+            window.attachEvent('onload', doReady);
 
-        } else if (browser.webkit && browser.webkit < 525){        /* Webkit */
+        } else if (browser.webkit && browser.webkit < 525) {        /* Webkit and version < 525 */
 
-            (function(){
-                if( isReady ) return;
-                if (/loaded|complete/.test(doc.readyState)){
+            (function () {
+                if (isReady) return;
+                if (/loaded|complete/.test(doc.readyState)) {
                     doReady();
-                }else{
-                    setTimeout( arguments.callee, 0 );
+                } else {
+                    setTimeout(arguments.callee, 0);
                 }
             })();
             window.addEventListener('load', doReady, false);
 
-        }else{          /* FF Opera 高版webkit 其他 */
+        } else {          /* FF Opera 高版webkit 其他 */
 
-            if( !browser.name === 'firefox' || browser.version != 2 || conf.enableMozDOMReady)
-                doc.addEventListener( "DOMContentLoaded", function(){
-                    doc.removeEventListener( "DOMContentLoaded", arguments.callee, false );
+            if (!browser.name === 'firefox' || browser.version != 2 || conf.enableMozDOMReady)
+                doc.addEventListener("DOMContentLoaded", function () {
+                    doc.removeEventListener("DOMContentLoaded", arguments.callee, false);
                     doReady();
-                }, false );
+                }, false);
             window.addEventListener('load', doReady, false);
         }
     })();
+
 
     am.event = $E;
 });
