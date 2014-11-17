@@ -18,13 +18,24 @@ AM.$package(function (am) {
          *
          * @return {string} 生成的参数串
          */
-        serializeParam: function (param) {
+        serializeParam: function (param, prefix) {
             if (!param) {
                 return '';
             }
-            var qstr = [];
+            if (!prefix) {
+                prefix = '';
+            }
+            var qstr = [], value;
             for (var key in param) {
-                qstr.push(encodeURIComponent(key) + '=' + encodeURIComponent(param[key]));
+                value = param[key];
+                if (prefix) {
+                    key = prefix + '[' + key + ']';
+                }
+                if (am.type.isArray(value) || am.type.isObject(value)) {
+                    qstr.push(am.http.serializeParam(value, key));
+                } else {
+                    qstr.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+                }
             }
             return qstr.join('&');
         },
