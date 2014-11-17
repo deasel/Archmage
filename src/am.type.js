@@ -87,6 +87,10 @@ AM.$package(function (am) {
          * @returns {boolean}   是否为空对象
          */
         isPlainObject: function (obj) {
+            //首先应该判断目标是否为对象
+            if(!AM.type.isObject(obj)){
+                return false;
+            }
             for (var n in obj) {
                 return false;
             }

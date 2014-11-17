@@ -13,7 +13,13 @@
 
 //        console.log(AM.type.isNumber(new Number(1)));//得到false，预期true
 //        console.log(AM.type.isBoolean(new Boolean(true)));//得到false，预期true
-    alert(AM.type.isHTMLElement(document.getElementById('node')));
+//    alert(AM.type.isHTMLElement(document.getElementById('node')));
+
+console.log(AM.type.isPlainObject([]));
+console.log(AM.type.isPlainObject(1));
+console.log(AM.type.isPlainObject(true));
+console.log(AM.type.isPlainObject(undefined));
+console.log(AM.type.isPlainObject({}));
     </script>
 </body>
 </html>
