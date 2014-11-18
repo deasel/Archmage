@@ -236,13 +236,15 @@
         map: function (arr, callback, context) {
             var $T = AM.type;
             if (arr.length) {
-                [].map.call(arr, callback, context);
+                return [].map.call(arr, callback, context);
             } else if ($T.isObject(arr)) {
+                var res = {};
                 for (var i in arr) {
                     if (arr.hasOwnProperty(i)) {
-                        arr[i] = callback.call(context || arr[i], arr[i], i, arr);
+                        res[i] = callback.call(context || arr[i], arr[i], i, arr);
                     }
                 }
+                return res;
             }
         },
         filter: function (arr, callback, context) {
