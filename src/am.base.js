@@ -112,11 +112,13 @@
         Class: function () {
             var length = arguments.length;
             var option = arguments[length - 1];
-            option.init = option.init || function () {};
+            option.init = option.init || function () {
+            };
 
             if (length === 2) {
                 var superClass = arguments[0].extend;
-                var tempClass = function () {};
+                var tempClass = function () {
+                };
                 tempClass.prototype = superClass.prototype;
                 var subClass = function () {
                     return new subClass.prototype._init(arguments);
@@ -183,72 +185,77 @@
                 }
             }
         },
-        every: function (arr, callback) {
-            var $T = AM.type;
-            if (arr.length) {
-                return [].every.call(arr, callback);
-            } else if ($T.isObject(arr)) {
-                var flag = true;
-                this.each(arr, function (e, i, arr) {
-                    if (!callback(e, i, arr)) {
-                        flag = false;
-                    }
-                });
-                return flag;
-            }
-        },
-        some: function (arr, callback) {
-            if (arr.length) {
-                return [].some.call(arr, callback);
-            } else if ($T.isObject(arr)) {
-                var flag = false;
-                this.each(arr, function (e, i, arr) {
-                    if (callback(e, i, arr)) {
-                        flag = true;
-                    }
-                });
-                return flag;
-            }
-        },
-        each: function (arr, callback) {
-            var $T = AM.type, i, l;
+        each: function (arr, callback, context) {
+            var $T = AM.type,
+                i, l;
             if (arr.length) {
                 for (i = 0, l = arr.length; i < l; i++) {
-                    if (callback.call(arr[i], arr[i], i, arr) === false) {
+                    if (callback.call(context || arr[i], arr[i], i, arr) === false) {
                         return;
                     }
                 }
             } else if ($T.isObject(arr)) {
                 for (i in arr) {
-                    if (arr.hasOwnProperty(i) && callback.call(arr[i], arr[i], i, arr) === false) {
+                    if (arr.hasOwnProperty(i) && callback.call(context || arr[i], arr[i], i, arr) === false) {
                         return;
                     }
                 }
             }
         },
-        map: function (arr, callback) {
+        every: function (arr, callback, context) {
             var $T = AM.type;
             if (arr.length) {
-                [].map.call(arr, callback);
+                return [].every.call(arr, callback, context);
+            } else if ($T.isObject(arr)) {
+                var flag = true;
+                this.each(arr, function (e, i, arr) {
+                    if(callback.call(this, e, i, arr) === false){
+                        flag = false;
+                        return false;
+                    }
+                }, context);
+                return flag;
+
+            }
+        },
+        some: function (arr, callback, context) {
+            var $T = AM.type;
+            if (arr.length) {
+                return [].some.call(arr, callback, context);
+            } else if ($T.isObject(arr)) {
+                var flag = false;
+                this.each(arr, function (e, i, arr) {
+                    if(callback.call(this, e, i, arr) === true){
+                        flag = true;
+                        return false;
+                    }
+                }, context);
+                return flag;
+            }
+        },
+        map: function (arr, callback, context) {
+            var $T = AM.type;
+            if (arr.length) {
+                [].map.call(arr, callback, context);
             } else if ($T.isObject(arr)) {
                 for (var i in arr) {
                     if (arr.hasOwnProperty(i)) {
-                        arr[i] = callback.call(arr[i], arr[i], i, arr);
+                        arr[i] = callback.call(context || arr[i], arr[i], i, arr);
                     }
                 }
             }
         },
-        filter: function (arr, callback) {
+        filter: function (arr, callback, context) {
             var $T = AM.type;
             if (arr.length) {
-                return [].filter.call(arr, callback);
+                return [].filter.call(arr, callback, context);
             } else if ($T.isObject(arr)) {
                 var newObj = {};
-                this.each(arr, function (e, i) {
-                    if (callback(e, i)) {
+                this.each(arr, function (e, i, arr) {
+                    if(callback.call(this, e, i, arr)){
                         newObj[i] = e;
                     }
-                });
+                }, context);
                 return newObj;
             }
         },
