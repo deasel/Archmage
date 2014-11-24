@@ -116,7 +116,8 @@
             };
 
             if (length === 2) {
-                var superClass = arguments[0].extend;
+//                var superClass = arguments[0].extend;
+                var superClass = arguments[0];
                 var tempClass = function () {
                 };
                 tempClass.prototype = superClass.prototype;
@@ -269,7 +270,9 @@
                 return defaultValue;
             }
             return value;
-        }
+        },
+
+        noop: function(){}
     };
 
     global.AM = am;

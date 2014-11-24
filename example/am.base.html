@@ -25,6 +25,29 @@
 //        });
 //
 //        alert(typeof HTMLElement);
+
+//        var arr = [11,22,33,44];
+//        AM.each(arr, function(item, index){
+//            if(index < 2){
+//            }else{
+//                return false;
+//            }
+//        }, {name : 'deasel'});
+//
+//
+//        var res = AM.map(arr, function(item){
+//            return ++item;
+//        });
+//        var test = {key1:11, key2:22, key3:33};
+//        var res1 = AM.map(test, function(item){
+//            return ++item;
+//        });
+//        debugger;
+
+        var a = AM.Class({name : 'deasel'});
+        var b = AM.Class(a, {age : 11});
+        var test = new b();
+        debugger;
     </script>
 </body>
 </html>
