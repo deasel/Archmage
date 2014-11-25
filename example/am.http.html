@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <script type="text/javascript" src="../src/am.base.js"></script>
+    <script type="text/javascript" src="../src/am.type.js"></script>
+    <script type="text/javascript" src="../src/am.http.js"></script>
+    <script type="text/javascript">
+        var $http = AM.http;
+
+        $http.ajax({
+           url: 'script/data.json',
+           dataType: 'json',
+
+//            url: 'http://test.com/js/test1.js',
+//            dataType: 'jsonp',
+//            type: 'GET',
+//            callback: 'handle',
+
+            error: function () {
+                debugger;
+            },
+            success: function () {
+                debugger;
+            }
+        });
+    </script>
+</body>
+</html>

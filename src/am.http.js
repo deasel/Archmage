@@ -7,8 +7,12 @@
  *
  * @depend      am.base.js  am.type.js
  */
-//http
+"use strict";
 AM.$package(function (am) {
+
+    var BUG = {'你TMD':'指什么指'},
+
+        $T = am.type;
 
     var http = {
         /**
@@ -57,7 +61,8 @@ AM.$package(function (am) {
         /**
          * ajax方法，支持的参数如下：
          *  AM.http.ajax({
-         *      method : 'post',
+         *      type : 'post',
+         *      dataType : 'json',
          *      timeout : 10,
          *      withCredentials : false,    //是否跨域
          *      url : '',
@@ -72,84 +77,105 @@ AM.$package(function (am) {
          * @param option
          * @returns {*}
          */
-        ajax: function (option) {
-                var o = option;
-                var m = o.method.toLocaleUpperCase();
-                var isPost = 'POST' == m;
-                var isComplete = false;
-                var timeout = o.timeout;
-                var withCredentials = o.withCredentials; //跨域ajax
-                var async = ('async' in option) ? option.async : true; //默认为异步请求, 可以设置为同步
-
-                var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : false;
-                if (!xhr) {
-                    o.error && o.error.call(null, {
-                        ret: 999,
-                        msg: 'Create XHR Error!'
-                    });
-                    return false;
-                }
-
-                var qstr = http.serializeParam(o.data);
-
-                // get 请求 参数处理
-                !isPost && (o.url += (o.url.indexOf('?') > -1 ? '&' : '?') + qstr);
-
-                xhr.open(m, o.url, async);
-                if (withCredentials) {
-                    xhr.withCredentials = true;
-                }
-
-                isPost && xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                var timer = 0;
-
-                xhr.onreadystatechange = function () {
-                    if (4 == xhr.readyState) {
-                        var status = xhr.status;
-                        if ((status >= 200 && status < 300) || status === 304 || status === 0) {
-                            var response = xhr.responseText.replace(/(\r|\n|\t)/gi, '');
-                            // var m = /callback\((.+)\)/gi.exec( response );
-                            // var result = { ret : 998, msg : '解析数据出错，请稍后再试' };
-                            // try{ result = eval( '(' + m[1] + ')' ) } catch ( e ) {};
-                            // result = eval( '(' + m[1] + ')' )
-                            var json = null;
-                            try {
-                                json = JSON.parse(response);
-                            } catch (e) {}
-                            o.onSuccess && o.onSuccess(json, xhr);
-                        } else {
-                            o.onError && o.onError(xhr, +new Date() - startTime);
-                        }
-                        isComplete = true;
-                        if (timer) {
-                            clearTimeout(timer);
-                        }
-                    }
-
-                };
-
-                var startTime = +new Date();
-                xhr.send(isPost ? qstr : void(0));
-
-                if (timeout) {
-                    timer = setTimeout(function () {
-                        if (!isComplete) {
-                            xhr.abort(); //不abort同一url无法重新发送请求？
-                            o.onTimeout && o.onTimeout(xhr);
-                        }
-                    }, timeout);
-                }
-
-                return xhr;
-            }
-            // offlineSend:function(options){
-            //     if(navigator.onLine){
-            //         http.ajax(options);
-            //     }
-            //     else{
-            //         saveDataLocal(options);
-            //     }
-            // }
+        ajax: function (options) {
+            options.dataType === 'jsonp' ? jsonp(options) : json(options);
+        }
+        // offlineSend:function(options){
+        //     if(navigator.onLine){
+        //         http.ajax(options);
+        //     }
+        //     else{
+        //         saveDataLocal(options);
+        //     }
+        // }
     };
     am.http = http;
+
+
+    function json(options){
+        var dataType = options.dataType || "json";
+
+
+        options = options || {};
+        options.type = (options.type || "GET").toUpperCase();
+        var params = http.serializeParam(options.data);
+
+        //创建 - 非IE6 - 第一步
+        if (window.XMLHttpRequest) {
+            var xhr = new XMLHttpRequest();
+        } else { //IE6及其以下版本浏览器
+            var xhr = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+
+        //接收 - 第三步
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                var status = xhr.status;
+                if (status >= 200 && status < 300) {
+                    var data = xhr.responseText;
+                    data = dataType === 'json' ? eval('(' + data + ')') : data;
+                    $T.isFunction(options.success) && options.success.call(BUG, data, xhr.responseXML);
+                } else {
+                    $T.isFunction(options.error) && options.error.call(BUG,status);
+                }
+            }
+        }
+
+        //连接 和 发送 - 第二步
+        if (options.type == "GET") {
+            xhr.open("GET", options.url + "?" + params, true);
+            xhr.send(null);
+        } else if (options.type == "POST") {
+            xhr.open("POST", options.url, true);
+            //设置表单提交时的内容类型
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(params);
+        }
+
+        return xhr;
+    }
+
+    function jsonp(options) {
+        options = am.extend({data : {}}, options);
+        if (!options.url || !options.callback) {
+            throw new Error("参数不合法");
+        }
+
+        //创建 script 标签并加入到页面中
+        var callbackName = ('jsonp_' + Math.random()).replace(".", "");
+        var oHead = document.getElementsByTagName('head')[0];
+        options.data[options.callback] = callbackName;
+        var params = http.serializeParam(options.data);
+        var oS = document.createElement('script');
+        oHead.appendChild(oS);
+
+        //创建jsonp回调函数
+        window[callbackName] = function (json) {
+            oHead.removeChild(oS);
+            clearTimeout(oS.timer);
+            window[callbackName] = null;
+            $T.isFunction(options.success) && options.success(json);
+        };
+
+        //发送请求
+        oS.src = options.url + '?' + params;
+
+        //超时处理
+        if (options.time) {
+            oS.timer = setTimeout(function () {
+                window[callbackName] = null;
+                oHead.removeChild(oS);
+                $T.isFunction(options.error) && options.error({ message: "out of time" });
+            }, options.time);
+        }
+    };
+
+    //格式化参数
+//    function formatParams(data) {
+//        var arr = [];
+//        for (var name in data) {
+//            arr.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[i]));
+//        }
+//        return arr.join('&');
+//    }
 });
