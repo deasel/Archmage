@@ -453,12 +453,13 @@ AM.$package(function (am) {
         },
         hold: function (ele, handler) {
             //按下松开之间的移动距离小于20，认为点击生效
-            var HOLD_DISTANCE = 20;
-            //按下两秒后hold触发
-            var HOLD_TIME = 2000;
-            var holdTimeId;
-            var pt_pos;
-            var ct_pos;
+            var HOLD_DISTANCE = 20,
+                //按下两秒后hold触发
+                HOLD_TIME = 2000,
+                holdTimeId,
+                pt_pos,
+                ct_pos,
+                pt_time;
             var startEvtHandler = function (e) {
                 e.stopPropagation();
                 var touches = e.touches;
@@ -806,3 +807,45 @@ AM.$package(function (am) {
 
     am.event = $E;
 });
+
+//function ready(readyFn) {
+//    //非IE浏览器
+//    if (document.addEventListener) {
+//        document.addEventListener('DOMContentLoaded', function () {
+//            readyFn && readyFn();
+//        }, false);
+//    } else {
+//        //方案1和2  哪个快用哪一个
+//        var bReady = false;
+//        //方案1
+//        document.attachEvent('onreadystatechange', function () {
+//            if (bReady) {
+//                return;
+//            }
+//            if (document.readyState == 'complete' || document.readyState == "interactive") {
+//                bReady = true;
+//                readyFn && readyFn();
+//            };
+//        });
+//
+//        //方案2
+//        //jquery也会担心doScroll会在iframe内失效，此处是判断当前页是否被放在了iframe里
+//        if (!window.frameElement) {
+//            setTimeout(checkDoScroll, 1);
+//        }
+//        function checkDoScroll() {
+//            try {
+//                document.documentElement.doScroll("left");
+//                if (bReady) {
+//                    return;
+//                }
+//                bReady = true;
+//                readyFn && readyFn();
+//            }
+//            catch (e) {
+//                // 不断检查 doScroll 是否可用 - DOM结构是否加载完成
+//                setTimeout(checkDoScroll, 1);
+//            }
+//        };
+//    }
+//};
