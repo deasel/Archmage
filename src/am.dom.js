@@ -18,7 +18,10 @@ AM.$package(function (am) {
 
         hasClassListProperty = 'classList' in doc.documentElement,
         vendors = ['o', 'ms', 'moz', 'webkit'],
-        div = doc.createElement('div');
+        div = doc.createElement('div'),
+
+        QUERY_TAG_NAME = 'getElementsByTagName',
+        QUERY_CLS_NAME = 'getElementsByClassName';
 
     var queryModule = {
         /**
@@ -39,7 +42,7 @@ AM.$package(function (am) {
          */
         tagName: function (tagName, context) {
             context = context || doc;
-            return context.getElementsByTagName(tagName);
+            return context[QUERY_TAG_NAME](tagName);
         },
         /**
          *
@@ -49,11 +52,11 @@ AM.$package(function (am) {
          */
         className: function (className, context) {
             context = context || doc;
-            if (context.getElementsByClassName) {
-                return context.getElementsByClassName(className);
+            if (context[QUERY_CLS_NAME]) {
+                return context[QUERY_CLS_NAME](className);
             } else {
 
-                var children = context.getElementsByTagName('*'),
+                var children = context[QUERY_TAG_NAME]('*'),
                     elements = [],
                     i, l, classNames;
 
@@ -97,10 +100,11 @@ AM.$package(function (am) {
                 //这里需要将HTML Collection转换为数组
                 var nodeList = result.length ? am.toArray(result) : [result];
 
-                for (var i = 0, len = nodeList.length, node; i < len; i++) {
-                    node = nodeList[i];
-                    callback.call(node, i);
-                }
+                $T.isFunction(callback) && am.each(nodeList, callback);
+//                for (var i = 0, len = nodeList.length, node; i < len; i++) {
+//                    node = nodeList[i];
+//                    callback.call(node, i);
+//                }
             }
 
             return result;
@@ -142,7 +146,11 @@ AM.$package(function (am) {
 
             node = doc.createElement(name);
 
-            node = am.extend(node, attrs);
+            am.each(attrs, function(val, key){
+                if(val && key){
+                    node.setAttribute(key, val);
+                }
+            });
 
             if ($T.isHTMLElement(parent)) {
                 parent.appendChild(node);

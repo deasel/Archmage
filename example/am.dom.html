@@ -13,25 +13,31 @@
     <p>
     <a href="javascript:;" class="link">class=link</a><br/>
     </p>
+    <p id="node"></p>
     <script type="text/javascript" src="../src/am.base.js"></script>
     <script type="text/javascript" src="../src/am.type.js"></script>
     <script type="text/javascript" src="../src/am.dom.js"></script>
     <script type="text/javascript">
     var $D = AM.dom;
 
-    var nodeById = $D.id('link', function(){
-        this.innerHTML += ' callback id';
-    });
-    var test = nodeByClass = $D.className('link', function(){
-        this.innerHTML += ' callback class';
-    });
-    debugger;
+//    var nodeById = $D.id('link', function(){
+//        this.innerHTML += ' callback id';
+//    });
+//    var test = nodeByClass = $D.className('link', function(){
+//        this.innerHTML += ' callback class';
+//    });
+//    debugger;
+//
+//
+//    var nodeByTag = $D.tagName('p', function(){
+//        this.innerHTML = '';
+//    });
+    $D.node({
+        nodeName: 'div',
+        class: 'toolbar',
+        style: 'height:30px;background:red;'
+    }, $D.id('node'));
 
-
-    var nodeByTag = $D.tagName('p', function(){
-        this.innerHTML = '';
-    });
-    debugger;
     </script>
 </body>
 </html>
