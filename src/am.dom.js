@@ -135,7 +135,7 @@ AM.$package(function (am) {
                 attrs = nodeName;
                 name = attrs.nodeName;
 
-                delete attrs.nodename;
+                delete attrs.nodeName;
             } else if ($T.isString(nodeName)) {
                 attrs = {};
                 name = nodeName;
@@ -297,14 +297,14 @@ AM.$package(function (am) {
         addClass: (function () {
             if (hasClassListProperty) {
                 return function (elem, className) {
-                    if (!elem || !className || $D.hasClass(elem, className)) {
+                    if (!elem || !className || AM.dom.hasClass(elem, className)) {
                         return;
                     }
                     elem.classList.add(className);
                 };
             } else {
                 return function (elem, className) {
-                    if (!elem || !className || $D.hasClass(elem, className)) {
+                    if (!elem || !className || AM.dom.hasClass(elem, className)) {
                         return;
                     }
                     elem.className += " " + className;
@@ -343,7 +343,7 @@ AM.$package(function (am) {
         hasClass: (function () {
             if (hasClassListProperty) {
                 return function (elem, className) {
-                    if (!elem || !className) {
+                    if (!elem || !className || !elem.classList) {
                         return false;
                     }
                     return elem.classList.contains(className);

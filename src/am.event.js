@@ -159,7 +159,8 @@ AM.$package(function (am) {
                 return;
             }
             //dom event in origin element
-            if (obj.elem && (tmpEvtType = isDomEvent(obj.elem, evtType))) {
+            tmpEvtType = isDomEvent(obj.elem, evtType)
+            if (obj.elem && tmpEvtType) {
                 evtType = tmpEvtType;
                 unbindDomEvent(obj.elem, evtType, handler);
                 return;

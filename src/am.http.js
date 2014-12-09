@@ -7,7 +7,6 @@
  *
  * @depend      am.base.js  am.type.js
  */
-"use strict";
 AM.$package(function (am) {
 
     var BUG = {'你TMD':'指什么指'},
