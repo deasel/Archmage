@@ -64,7 +64,8 @@ AM.$package(function (am) {
     var $E = {
         on: function (obj, evtType, handler) {
             var tmpEvtType, i;
-            if ($T.isArray(obj)) {
+//            if ($T.isArray(obj)) {
+            if (obj.length >= 0) {
                 for (i = obj.length; i--;) {
                     $E.on(obj[i], evtType, handler);
                 }
