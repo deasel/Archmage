@@ -60,10 +60,11 @@ AM.$package(function (am) {
             }
         }
     };
-
     var $E = {
         on: function (obj, evtType, handler) {
             var tmpEvtType, i;
+            //update by deasel  2014-12-12
+            //对于常见的集合性查询结果（即类数组对象），这里的判断是不太理想的。这里其实只需要判断对象是否具有数组特性即可
 //            if ($T.isArray(obj)) {
             if (obj.length >= 0) {
                 for (i = obj.length; i--;) {
