@@ -320,14 +320,14 @@ AM.$package(function (am) {
         removeClass: (function () {
             if (hasClassListProperty) {
                 return function (elem, className) {
-                    if (!elem || !className || !$D.hasClass(elem, className)) {
+                    if (!elem || !className || !AM.dom.hasClass(elem, className)) {
                         return;
                     }
                     elem.classList.remove(className);
                 };
             } else {
                 return function (elem, className) {
-                    if (!elem || !className || !$D.hasClass(elem, className)) {
+                    if (!elem || !className || !AM.dom.hasClass(elem, className)) {
                         return;
                     }
                     elem.className = elem.className.replace(new RegExp('(?:^|\\s)' + className + '(?:\\s|$)'), ' ');
