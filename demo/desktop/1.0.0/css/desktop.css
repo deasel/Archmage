@@ -1,0 +1,73 @@
+*{padding:0; margin:0;}
+body, html{height: 100%;position: relative;}
+a{text-decoration: none;color:#000}
+ul li{list-style: none;}
+
+.desktop{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:url("../images/bg1.jpg");
+    -moz-background-size:100% 100%; /* 老版本的 Firefox */
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+}
+
+
+/* toolbar */
+.toolbar{
+    background-color:#cbd3db;
+    height:20px;
+    position: relative;
+    padding:0 15px;
+}
+.toolbar .menu-btn-split{
+    height:1px;
+    border-top: 1px solid #666;
+    margin:5px 0;
+    padding:0!important;
+}
+.toolbar .toolbar-sys-icon{
+    font-weight: bold;
+    line-height: 20px;
+    position: relative;
+}
+.toolbar .menu-btn-wrap{
+    display: none;
+    background-color:#f1f1f1;
+    width:200px;
+    border-radius: 5px;
+    position: absolute;
+    top:0;left:200px;
+    border:1px solid #000;
+    padding:5px 0;
+}
+.toolbar .menu-btn .show{
+    display: block;
+}
+.toolbar .menu-btn-wrap li{
+    display: block;
+    position: relative;
+    padding:0 5px 0 20px;
+}
+.toolbar .menu-btn-wrap li:hover{
+    background-color: #5981f4;
+}
+.toolbar .menu-btn-wrap .menu-btn-text{
+    display: inline-block;
+    width:170px;
+}
+.toolbar .menu-btn-wrap .menu-btn-desc{
+    position: absolute;
+    top:0px;
+    right:5px;
+}
+.toolbar .menu-btn-wrap-top{
+    top:18px!important;
+    left:0!important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top:0;
+}
