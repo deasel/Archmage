@@ -71,3 +71,10 @@ ul li{list-style: none;}
     border-top-right-radius: 0;
     border-top:0;
 }
+
+
+.toolbar .toolbar-app-env{
+    position: absolute;
+    top:3px;
+    right: 20px;
+}

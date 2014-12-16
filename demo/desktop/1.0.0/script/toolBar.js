@@ -1,4 +1,4 @@
-define(['archmage', 'menuButton'], function(am, MenuButton){
+define(['archmage', 'menuButton', 'timer'], function(am, MenuButton, Timer){
     var $D = am.dom,
 
         oDesktop = $D.className('desktop')[0];
@@ -15,9 +15,16 @@ define(['archmage', 'menuButton'], function(am, MenuButton){
         oBar.innerHTML = [
             '<a class="toolbar-sys-icon menu-btn" href="javascript:;">系统</a>',
             '<span class="toolbar-app-tool"></span>',
-            '<span class="toolbar-app-env"></span>'
+            '<span class="toolbar-app-env">',
+                '<span class="env-timer"></span>',
+            '</span>'
         ].join('');
 
+        new Timer({
+            el: $D.className('env-timer')[0]
+        });
+
+        //左侧系统菜单
         new MenuButton({
             el: $D.className('toolbar-sys-icon', oBar)[0],
             items: [{
