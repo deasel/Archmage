@@ -25,26 +25,126 @@
     <script type="text/javascript" src="script/jquery.1.9.1.js"></script>
 
     <script type="text/javascript">
-        $(function(){
-            $('body').append('<scr' + 'ipt type="text/javascript" src="script/a.js"></sc' + 'ript>');
-        });
+//        $(function(){
+//            $('body').append('<scr' + 'ipt type="text/javascript" src="script/a.js"></sc' + 'ript>');
+//        });
         $(function(){
             alert('ready1');
         });
-        $(function(){
-            alert('ready2');
-        });
-        $(function(){
-            alert('ready3');
-        });
+//        $(function(){
+//            alert('ready2');
+//        });
+//        $(function(){
+//            alert('ready3');
+//        });
 
+//var DOM = (function(){
+//    var readyBound = false;
+//    var _DOM = {
+//        fn: [],
+//        bReady : false,
+//        /**
+//         * 注册 DOM ready时的处理函数
+//         */
+//        push: function ( fn ){
+//            _DOM.bind();
+//            // 如果DOM已经准备好了 就直接调用注册的fn
+//            if ( _DOM.bReady ) {
+//                fn.call( document );
+//                // 否则 就将fn推入readyLis
+//            } else {
+//                _DOM.fn.push( fn );
+//            }
+//        },
+//
+//        /**
+//         * 触发DOM ready的函数
+//         */
+//        ready: function (){
+//            var fn, i = 0, fns;
+//            _DOM.bReady = true;
+//            //为了减少变量查询带来的性能损耗，将fn赋值给本地变量
+//            fns = _DOM.fn;
+//
+//            while( (fn = fns[ i++ ]) ){
+//                fn.call( document );
+//            }
+//            //清空
+//            fns = null;
+//        },
+//
+//        /**
+//         * 监听 DOM ready事件
+//         */
+//        bind: function (){
+//            if (readyBound) return; //如果执行过bind()函数则返回
+//            readyBound = true;
+//
+//            //如果在绑定ready的时候DOM已经准备好了，就异步调用ready函数
+//            if ( document.readyState === "complete" ) {
+//                return setTimeout( _DOM.ready,0);
+//            }
+//
+//            if( document.addEventListener ){
+//
+//                document.addEventListener( "DOMContentLoaded", function(){
+//                    document.removeEventListener( "DOMContentLoaded", arguments.callee, false );
+//                    _DOM.ready();
+//                }, false );
+//
+//
+//            } else {// else if( document.attachEvent )
+//
+//                //使用doScroll方法来检测DOM树是否渲染完成
+//
+//                var bTop = false;
+//
+//                try {
+//                    //处于iframe中，使用doScroll方法并不代表DOM加载完毕
+//                    bTop = window.frameElement == null;
+//                } catch(e) {}
+//
+//
+//                //用bTop标识是否使用doScroll来触发ready函数
+//                if ( document.documentElement.doScroll && bTop ) {
+//                    (function(){
+//                        try{
+//                            document.documentElement.doScroll('left');
+//                        }catch(e){
+//                            return setTimeout( arguments.callee, 0 );
+//                        }
+//                        _DOM.ready();
+//                    })();
+//                }
+//            }
+//        }
+//    };
+//    return _DOM.push;
+//})();
+//
+//
+//DOM(function(){
+//    alert(1);
+//});
+//
+//DOM(function(){
+//    var s = document.createElement('script');
+//    s.src = 'script/a.js';
+//    s.type = 'text/javascript';
+//    document.body.appendChild(s);
+//});
+//
+//DOM(function(){
+//    alert(2);
+//});
+//
+//DOM(function(){
+//    alert(3);
+//});
 
 //    var $D = AM.dom,
 //        $E = AM.event;
 //
-////    $E.on(document, 'domRender', function(){
-////        alert(11);
-////    });
 //    $E.domReady(function(){
 //        var s = document.createElement('script');
 //        s.src = 'script/a.js';
@@ -69,6 +169,8 @@
     };
 //
 //    $E.on(document, 'click.test', function(){});
+
+
 
     </script>
 </body>
