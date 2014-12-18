@@ -7,10 +7,7 @@ define(['archmage', 'menuButton', 'timer'], function(am, MenuButton, Timer){
     function domRender(){
 
         //初始化dom结构
-        var oBar = $D.node({
-            nodeName: 'div',
-            class: 'toolbar'
-        }, oDesktop);
+        var oBar = $D.className('toolbar')[0];
 
         oBar.innerHTML = [
             '<a class="toolbar-sys-icon menu-btn" href="javascript:;">系统</a>',

@@ -5,6 +5,7 @@ requirejs.config({
     }
 
 });
-requirejs(['toolBar'], function(toolbar){
+requirejs(['toolBar', 'browser'], function(toolbar, browser){
     toolbar.init();
+    browser.init();
 });

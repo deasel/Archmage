@@ -1,20 +1,23 @@
 *{padding:0; margin:0;}
-body, html{height: 100%;position: relative;}
+body, html{height: 100%;}
 a{text-decoration: none;color:#000}
 ul li{list-style: none;}
 
 .desktop{
     position: absolute;
-    top:0;
-    left:0;
+    top:20px;
     right:0;
+    left:0;
     bottom:0;
     background:url("../images/bg1.jpg");
     -moz-background-size:100% 100%; /* 老版本的 Firefox */
     background-size:100% 100%;
     background-repeat:no-repeat;
 }
-
+.desktop-wrap{
+    position: relative;
+    height: 100%;
+}
 
 /* toolbar */
 .toolbar{
@@ -77,4 +80,8 @@ ul li{list-style: none;}
     position: absolute;
     top:3px;
     right: 20px;
+}
+
+.panel{
+    position: absolute;
 }

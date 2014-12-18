@@ -5,6 +5,8 @@
 define(['archmage'], function(am){
 
     var _option,
+        CACHE = {},
+
         $T = am.type,
         $E = am.event,
         $D = am.dom;
