@@ -38,11 +38,30 @@ define(['archmage'], function(am){
             '<div class="panel-body">' + content + '</div>'
         ].join('');
 
+        //add the mark
         $D.addClass(el, 'panel');
 
+        setSize(opts);
+    }
+
+    function setSize(opts){
+        var el = opts.el,
+            width, height;
+
+        if(opts.fit === true){
+            width =  '100%';
+            height = '100%';
+        }else{
+            width = opts.width + 'px';
+            height = opts.height + 'px';
+
+            $D.addClass(el, 'panel-center');
+        }
+
+
         $D.setStyle(el, {
-            width: opts.width + 'px',
-            height: opts.height + 'px'
+            width: width,
+            height: height
         });
     }
 

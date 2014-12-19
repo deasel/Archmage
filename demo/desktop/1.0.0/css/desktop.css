@@ -84,4 +84,12 @@ ul li{list-style: none;}
 
 .panel{
     position: absolute;
+    background: red;
+}
+.panel-center{
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 }
