@@ -1,21 +1,22 @@
-define(['archmage'], function(am){
+define(['archmage'], function (am) {
 
     var $D = am.dom,
+        $T = am.type,
         $E = am.event;
 
     var _option = {
         /**
          * 是否初始化关闭按钮
          */
-        closable: false,
+        closable: true,
         /**
          * 是否初始化最小化按钮
          */
-        minimizable: false,
+        minimizable: true,
         /**
          * 是否初始化最大化按钮
          */
-        maximizable: false,
+        maximizable: true,
 
         fit: false,
 
@@ -23,68 +24,130 @@ define(['archmage'], function(am){
 
         width: 300,
 
-        height: 300
+        height: 300,
+
+        isShow: true,
+
+        __oWidth: null,
+        __oHeight: null
     };
 
-    function domRender(self){
+    function domRender(self) {
         var opts = self.options,
             el = opts.el,
             content = el.innerHTML;
-
-        el.innerHTML = [
-            '<div class="panel-header">',
-                initToolsButton(opts),
-            '</div>',
-            '<div class="panel-body">' + content + '</div>'
-        ].join('');
-
         //add the mark
         $D.addClass(el, 'panel');
 
-        setSize(opts);
+        el.innerHTML = [
+            '<div class="panel-header">',
+            initToolsButton(opts),
+            '</div>',
+                '<div class="panel-body">' + content + '</div>'
+        ].join('');
+
+        setSize(self);
     }
 
-    function setSize(opts){
-        var el = opts.el,
-            width, height;
+    function setSize(self) {
+        var opts = self.options,
+            el = opts.el,
+            method;
 
-        if(opts.fit === true){
-            width =  '100%';
-            height = '100%';
-        }else{
-            width = opts.width + 'px';
-            height = opts.height + 'px';
-
-            $D.addClass(el, 'panel-center');
+        if(opts.isShow !== true){
+            $D.setStyle(el, 'display', 'none');
+            return;
         }
 
+        if (opts.fit === true) {
+            opts.__oWidth = opts.width;
+            opts.__oHeight = opts.height;
+            opts.width = '100%';
+            opts.height = '100%';
+            method = 'removeClass';
+        } else {
+            opts.width = opts.__oWidth || opts.width;
+            opts.height = opts.__oHeight || opts.height;
+            opts.__oWidth = '100%';
+            opts.__oHeight = '100%';
 
+            method = 'addClass';
+        }
         $D.setStyle(el, {
-            width: width,
-            height: height
+            width: opts.width,
+            height: opts.height,
+            display: 'block'
         });
+        $D[method](el, 'panel-center');
     }
 
 
-    function initToolsButton(opts){
+    function initToolsButton(opts) {
         var html = [],
             mark;
-        am.each(['clos', 'minimiz', 'maximiz'], function(item){
-            mark = item + 'able';
-            if(opts[mark] === true){
-                html.push('<a href="javascript:;" class="panel-header-btn panel-' + mark + '"></a>');
+        am.each({'clos': 'Close', 'minimiz': 'Minimize', 'maximiz': 'Maximize'}, function (value, key) {
+            mark = key + 'able';
+            if (opts[mark] === true) {
+                html.push('<a href="javascript:;" title="' + value + '" class="panel-header-btn panel-btn-' + mark + '"></a>');
             }
         });
 
         return html.join('');
     }
 
+    function bindEvents(self) {
+        var opts = self.options,
+            el = opts.el,
+
+            CLASS_NAME = 'panel-btn-',
+            oHeader = $D.className('panel-header', el)[0];
+
+        $E.on(oHeader, 'click', function (event) {
+            var target = event.target;
+
+            if ($T.isHTMLElement(target)) {
+
+
+                if ($D.hasClass(target, CLASS_NAME + 'closable')) {           //关闭窗口
+
+                    destory(self);
+
+                } else if ($D.hasClass(target, CLASS_NAME + 'minimizable')) {  //最小化窗口
+
+                    am.extend(opts, {
+                        fit: false,
+                        __oWidth: opts.width,
+                        __oHeight: opts.height,
+                        isShow: false
+                    });
+                    setSize(self);
+
+                } else if ($D.hasClass(target, CLASS_NAME + 'maximizable')) {  //最大化/还原窗口
+                    am.extend(opts, {
+                        isShow: true,
+                        fit: opts.fit === true ? false : true
+                    });
+                    setSize(self);
+                }
+            }
+        });
+    }
+
+    function destory(self) {
+        var opts = self.options,
+            el = opts.el,
+            oHeader = $D.className('panel-header', el)[0];
+
+        $E.off(oHeader, 'click');
+    }
+
     return am.Class({
-        init: function(options){
+        init: function (options) {
             var self = this;
             self.options = am.extend({}, _option, options);
 
             domRender(self);
+            bindEvents(self);
         }
     });
 });

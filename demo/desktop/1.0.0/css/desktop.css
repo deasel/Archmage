@@ -1,7 +1,8 @@
 *{padding:0; margin:0;}
-body, html{height: 100%;}
+body, html{height: 100%;font-size:16px;}
 a{text-decoration: none;color:#000}
 ul li{list-style: none;}
+
 
 .desktop{
     position: absolute;
@@ -84,12 +85,47 @@ ul li{list-style: none;}
 
 .panel{
     position: absolute;
-    background: red;
-}
-.panel-center{
-    margin: auto;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
+    border-radius: 5px;
+    background-color:#f6f6f6;
 }
+.panel-center{
+    margin: auto;
+}
+.panel .panel-header{
+    height:22px;
+    border-bottom:1px solid #ccc;
+    padding:5px 0 0 10px;
+}
+.panel .panel-header .panel-header-btn{
+    display: inline-block;
+    height:12px;
+    width:12px;
+    border-radius: 12px;
+    margin-right:5px;
+}
+.panel-btn-closable{
+     background-color: #df625a;
+}
+.panel-btn-closable:hover{
+    background-color: red;
+}
+.panel-btn-minimizable{
+    background-color: #eebe41;
+}
+.panel-btn-minimizable:hover{
+    background-color: #ffd700;
+}
+.panel-btn-maximizable{
+    background-color: #78cd50;
+}
+.panel-btn-maximizable:hover{
+    background-color: #7fff00;
+}
+
+
+
+.__hide__{display: none!important;}
