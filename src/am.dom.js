@@ -147,9 +147,7 @@ AM.$package(function (am) {
             node = doc.createElement(name);
 
             am.each(attrs, function(val, key){
-                if(val && key){
-                    node.setAttribute(key, val);
-                }
+                node.setAttribute(key, val);
             });
 
             if ($T.isHTMLElement(parent)) {

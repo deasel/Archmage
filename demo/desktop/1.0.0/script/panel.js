@@ -102,7 +102,7 @@ define(['archmage'], function (am) {
             CLASS_NAME = 'panel-btn-',
             oHeader = $D.className('panel-header', el)[0];
 
-        $E.on(oHeader, 'click', function (event) {
+        var headerClickHandler = function (event) {
             var target = event.target;
 
             if ($T.isHTMLElement(target)) {
@@ -110,7 +110,8 @@ define(['archmage'], function (am) {
 
                 if ($D.hasClass(target, CLASS_NAME + 'closable')) {           //关闭窗口
 
-                    destory(self);
+                    $E.off(oHeader, 'click', headerClickHandler);
+                    $D.remove(el);
 
                 } else if ($D.hasClass(target, CLASS_NAME + 'minimizable')) {  //最小化窗口
 
@@ -130,16 +131,12 @@ define(['archmage'], function (am) {
                     setSize(self);
                 }
             }
-        });
+        };
+
+        $E.on(oHeader, 'click', headerClickHandler);
     }
 
-    function destory(self) {
-        var opts = self.options,
-            el = opts.el,
-            oHeader = $D.className('panel-header', el)[0];
 
-        $E.off(oHeader, 'click');
-    }
 
     return am.Class({
         init: function (options) {
@@ -148,6 +145,13 @@ define(['archmage'], function (am) {
 
             domRender(self);
             bindEvents(self);
+        },
+        content: function(htmlContent){
+            var opts = this.options,
+                el = opts.el;
+            if(htmlContent){
+                el
+            }
         }
     });
 });

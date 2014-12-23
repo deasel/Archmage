@@ -113,7 +113,7 @@
             var length = arguments.length;
             var option = arguments[length - 1];
             option.init = option.init || function () {
-            };
+              };
 
             if (length === 2) {
 //                var superClass = arguments[0].extend;
