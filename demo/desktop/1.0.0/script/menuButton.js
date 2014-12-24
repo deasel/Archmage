@@ -58,7 +58,7 @@ define(['archmage'], function(am){
         var opts = self.options,
             el = opts.el,
             oTitle = $D.className('menu-btn-item', el),
-            oTopTitle = $D.className('menu-btn-text-top', el);
+            oTopTitle = $D.className('menu-btn-text-top', el)[0];
 
         $E.on(oTopTitle, 'click', function(){
             am.each(this.parentNode.children, function(){
@@ -69,7 +69,7 @@ define(['archmage'], function(am){
             });
         });
         $E.on(el, 'blur', function(){
-            am.each(oTopTitle[0].parentNode.children, function(){
+            am.each(oTopTitle.parentNode.children, function(){
                 if($D.hasClass(this, 'menu-btn-wrap')){
                     $D.removeClass(this, 'show');
                 }

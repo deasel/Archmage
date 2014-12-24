@@ -1,11 +1,17 @@
 define(['archmage', 'panel'], function (am, Panel) {
     var $D = am.dom,
-        $E = am.event;
+        $E = am.event,
+
+        _option = {
+
+
+            __history: []
+        };
 
     function domRender(self){
         var panelWrap,
             panel,
-            opts = self.options = {};
+            opts = self.options;
 
         panelWrap = $D.node({
             nodeName: 'div',
@@ -15,9 +21,9 @@ define(['archmage', 'panel'], function (am, Panel) {
 
         panelWrap.innerHTML = [
             '<div class="browser-address">',
-                '<span class="browser-addr-btn browser-btn-back"></span>',
-                '<span class="browser-addr-btn browser-btn-go"></span>',
-                '<span class="browser-addr-btn browser-btn-flush"></span>',
+                '<a class="browser-addr-btn browser-btn-back" href="javascript:;"><span class=""></span></a>',
+                '<a class="browser-addr-btn browser-btn-go" href="javascript:;"><span class=""></span></a>',
+                '<a class="browser-addr-btn browser-btn-flush" href="javascript:;"><span class=""></span></a>',
                 '<input class="browser-addr-input" placeholder="请输入网址，并单击回车键" />',
             '</div>',
             '<div class="browser-container"><iframe class="browser-content" src=""></iframe></div>',
@@ -38,8 +44,11 @@ define(['archmage', 'panel'], function (am, Panel) {
         var opts = self.options,
             el = opts.el,
             panel = opts.panel,
+
+            oIframe = $D.className('browser-content', el)[0],
             oInput = $D.className('browser-addr-input', el)[0],
-            oIframe = $D.className('browser-content', el)[0];
+
+            oAddrBtn = $D.className('browser-addr-btn', el);
 
         $E.on(oInput, 'keydown', function(e){
             var keyCode = e.keyCode || e.which,
@@ -52,12 +61,17 @@ define(['archmage', 'panel'], function (am, Panel) {
 
         });
 
+        $E.on(oAddrBtn, 'click', function(){
+        });
     }
 
     return {
-        init: function () {
-            domRender(this);
-            bindEvents(this);
+        init: function (options) {
+            var self = this;
+            self.options = am.extend({}, _option, options);
+
+            domRender(self);
+            bindEvents(self);
         }
     };
 });
