@@ -26,6 +26,9 @@ define(['archmage'], function(am){
 
             domRedner(self);
             bindEvents(self);
+        },
+        destory: function(){
+
         }
     });
 });

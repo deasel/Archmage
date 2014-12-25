@@ -1,7 +1,7 @@
 *{padding:0; margin:0;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-transform:translate3d(0, 0, 0)}
-body, html{height: 100%;font-size:16px;}
+body, html{height: 100%;font-size:14px;}
 a{text-decoration: none;color:#000}
 ul li{list-style: none;}
 input, label, button, textarea{vertical-align: middle;-webkit-appearance:none;outline: none}
@@ -236,8 +236,12 @@ input, label, button, textarea{vertical-align: middle;-webkit-appearance:none;ou
     bottom:0;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    background: #f6f6f6;
-    opacity: 0.7;
+    background: #fefefe;
+    opacity: 0.8;
+}
+.dock-app-wrap{
+    height: 68px;
+    margin: 0 auto;
 }
 
 
