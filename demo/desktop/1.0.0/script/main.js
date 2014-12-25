@@ -5,7 +5,10 @@ requirejs.config({
     }
 
 });
-requirejs(['toolBar', 'browser'], function(toolbar, browser){
-    toolbar.init();
-    browser.init();
+requirejs(['toolBar', 'dock'], function(){
+    var args = arguments;
+
+    for(var i = 0, len = args.length; i < len; i++){
+        args[i].init();
+    }
 });

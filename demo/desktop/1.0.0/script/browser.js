@@ -2,7 +2,7 @@ define(['archmage', 'panel'], function (am, Panel) {
     var $D = am.dom,
         $E = am.event,
 
-        _option = {
+        _OPTION = {
 
             __historyIndex: 0,      //当前地址在访问历史中的索引
             __history: ['']           //历史记录
@@ -120,7 +120,7 @@ define(['archmage', 'panel'], function (am, Panel) {
     return {
         init: function (options) {
             var self = this;
-            self.options = am.extend({}, _option, options);
+            self.options = am.extend({}, _OPTION, options);
 
             domRender(self);
             bindEvents(self);

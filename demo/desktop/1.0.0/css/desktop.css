@@ -17,6 +17,7 @@ input, label, button, textarea{vertical-align: middle;-webkit-appearance:none;ou
     -moz-background-size:100% 100%; /* 老版本的 Firefox */
     background-size:100% 100%;
     background-repeat:no-repeat;
+    padding-bottom: 68px;
 }
 .desktop-wrap{
     position: relative;
@@ -33,7 +34,7 @@ input, label, button, textarea{vertical-align: middle;-webkit-appearance:none;ou
 }
 .toolbar .menu-btn-split{
     height:1px;
-    border-top: 1px solid #666;
+    border-top: 1px solid #ccc;
     margin:5px 0;
     padding:0!important;
 }
@@ -49,7 +50,7 @@ input, label, button, textarea{vertical-align: middle;-webkit-appearance:none;ou
     border-radius: 5px;
     position: absolute;
     top:0;left:200px;
-    border:1px solid #000;
+    border:1px solid #ccc;
     padding:5px 0;
 }
 .toolbar .menu-btn .show{
@@ -224,6 +225,23 @@ input, label, button, textarea{vertical-align: middle;-webkit-appearance:none;ou
     bottom:0;
     background: #fff;
 }
+
+
+/* dock */
+.desktop-dock{
+    height: 68px;
+    position: absolute;
+    left:40px;
+    right:40px;
+    bottom:0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: #f6f6f6;
+    opacity: 0.7;
+}
+
+
+
 
 
 

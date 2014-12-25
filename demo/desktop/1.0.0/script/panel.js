@@ -4,7 +4,7 @@ define(['archmage'], function (am) {
         $T = am.type,
         $E = am.event;
 
-    var _option = {
+    var _OPTION = {
         /**
          * 是否初始化关闭按钮
          */
@@ -141,17 +141,10 @@ define(['archmage'], function (am) {
     return am.Class({
         init: function (options) {
             var self = this;
-            self.options = am.extend({}, _option, options);
+            self.options = am.extend({}, _OPTION, options);
 
             domRender(self);
             bindEvents(self);
-        },
-        content: function(htmlContent){
-            var opts = this.options,
-                el = opts.el;
-            if(htmlContent){
-                el
-            }
         }
     });
 });
