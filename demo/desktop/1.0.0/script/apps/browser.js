@@ -1,8 +1,11 @@
-define(['archmage', 'panel'], function (am, Panel) {
+define(['archmage', 'comp/panel'], function (am, Panel) {
     var $D = am.dom,
         $E = am.event,
 
         _OPTION = {
+
+            logo: '',
+            name: 'browser',
 
             __historyIndex: 0,      //当前地址在访问历史中的索引
             __history: ['']           //历史记录
@@ -26,7 +29,7 @@ define(['archmage', 'panel'], function (am, Panel) {
                 '<a class="browser-addr-btn browser-btn-flush" href="javascript:;"><span class=""></span></a>',
                 '<input class="browser-addr-input" placeholder="请输入网址，并单击回车键" />',
             '</div>',
-            '<div class="browser-container"><iframe class="browser-content" src=""></iframe></div>',
+            '<div class="browser-container"><iframe class="browser-content" src=""></iframe></div>'
         ].join('');
 
         opts.el = panelWrap;
@@ -117,13 +120,15 @@ define(['archmage', 'panel'], function (am, Panel) {
         });
     }
 
-    return {
+    return am.Class({
         init: function (options) {
             var self = this;
             self.options = am.extend({}, _OPTION, options);
 
             domRender(self);
             bindEvents(self);
-        }
-    };
+        },
+
+        __appName: 'browser'
+    });
 });

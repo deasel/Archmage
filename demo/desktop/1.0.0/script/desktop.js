@@ -1,3 +1,3 @@
-define(['archmage', 'panel'], function(am, Panel){
+define(['archmage', 'component/panel'], function(am, Panel){
 
 });

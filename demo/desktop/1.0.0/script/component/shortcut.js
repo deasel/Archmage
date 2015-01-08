@@ -1,4 +1,4 @@
-define(['archmage'], function(am){
+define(['archmage', 'apps/app'], function(am, Application){
 
     var $D = am.dom,
         $E = am.event,

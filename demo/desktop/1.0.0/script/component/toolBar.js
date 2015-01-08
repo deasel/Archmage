@@ -1,4 +1,4 @@
-define(['archmage', 'menuButton', 'timer'], function(am, MenuButton, Timer){
+define(['archmage', 'comp/menuButton', 'comp/timer'], function(am, MenuButton, Timer){
     var $D = am.dom,
 
         oDesktop = $D.className('desktop')[0];
