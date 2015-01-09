@@ -10,16 +10,17 @@ define(['archmage', 'apps/app'], function(am, Application){
 //            options: {}           //app配置参数
         },
         _HANDLE = {
-            click: function(){
-                this;
-                debugger;
+            click: function(event){
+                var appConfig = this.options,
+                    Factory = appConfig.constructor;
+                new Factory(appConfig.options);
             }
         };
 
 
     function domRedner(self){
         var opts = self.options,
-            el = opts.el,
+            el = self.el,
             appName = opts.appName,
             appConfig = Application[appName].prototype.__config__;
 
@@ -34,14 +35,19 @@ define(['archmage', 'apps/app'], function(am, Application){
     function bindEvents(self){
         var opts = self.options;
 
-        $E.on(opts.el, 'click', am.bind(_HANDLE['click'], self));
+        $E.on(self.el, 'click', am.bind(_HANDLE.click, self));
     }
 
     return am.Class({
         init: function(options){
             var self = this;
 
-                self.options = am.extend({}, _OPTION, options);
+            self.el = options.el;
+            delete options.el;
+
+            self.options = am.extend({
+                constructor: Application[options.appName]
+            }, _OPTION, options);
 
             domRedner(self);
             bindEvents(self);

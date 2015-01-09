@@ -8,6 +8,7 @@ define(['archmage', 'comp/panel'], function (am, Panel) {
             appName: 'browser',
             icon: '',
 
+            //TODO:历史记录数据重用
             __historyIndex: 0,      //当前地址在访问历史中的索引
             __history: ['']           //历史记录
         };
