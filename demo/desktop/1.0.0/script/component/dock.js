@@ -15,7 +15,7 @@ define(['archmage','env', 'comp/shortcut'], function(am, Env, Shortcut){
             var oShortcut = $D.node({
                 nodeName: 'a',
                 href: 'javascript:;',
-                class: 'app'
+                class: 'shortcut'
             }, oAppWrap);
 
             new Shortcut(am.extend({

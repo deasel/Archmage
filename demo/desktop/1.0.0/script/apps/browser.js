@@ -4,8 +4,9 @@ define(['archmage', 'comp/panel'], function (am, Panel) {
 
         _OPTION = {
 
-            logo: '',
-            name: 'browser',
+
+            appName: 'browser',
+            icon: '',
 
             __historyIndex: 0,      //当前地址在访问历史中的索引
             __history: ['']           //历史记录
@@ -129,6 +130,10 @@ define(['archmage', 'comp/panel'], function (am, Panel) {
             bindEvents(self);
         },
 
-        __appName: 'browser'
+        __config__: {
+            appName: 'browser',
+            icon: 'images/chrome.jpg',
+            desc: '浏览器'
+        }
     });
 });

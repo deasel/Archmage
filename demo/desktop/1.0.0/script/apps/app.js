@@ -4,7 +4,7 @@ define(['apps/browser'], function(){
 
     for(var i = 0, len = args.length, app; i < len; i++){
         app = args[i];
-        Applications[app.prototype.__appName] = app;
+        Applications[app.prototype.__config__.appName] = app;
     }
 
     return Applications;
