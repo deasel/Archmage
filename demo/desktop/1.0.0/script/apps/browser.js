@@ -11,7 +11,19 @@ define(['archmage', 'comp/panel'], function (am, Panel) {
             //TODO:历史记录数据重用
             __historyIndex: 0,      //当前地址在访问历史中的索引
             __history: ['']           //历史记录
-        };
+        },
+
+        _HANDLE = {
+
+        },
+
+        getIndex = (function(){
+            var index = 100;
+
+            return function(){
+                return index++;
+            };
+        })();
 
     function domRender(self){
         var panelWrap,
@@ -34,14 +46,14 @@ define(['archmage', 'comp/panel'], function (am, Panel) {
             '<div class="browser-container"><iframe class="browser-content" src=""></iframe></div>'
         ].join('');
 
+        panelWrap.setAttribute('data-mark', Math.random());
+        $D.setStyle(panelWrap, {
+            zIndex : getIndex()
+        });
+
         opts.el = panelWrap;
 
-        panel = new Panel({
-            width: '800px',
-            height: '400px',
-            fit: true,
-            el: panelWrap
-        });
+        panel = new Panel(opts);
         opts.panel = panel;
     }
 
@@ -71,7 +83,7 @@ define(['archmage', 'comp/panel'], function (am, Panel) {
                 opts.__historyIndex = opts.__history.length - 1;
 
                 oIframe.setAttribute('src', addr);
-                oInput.value = addr;
+//                oInput.value = addr;
 
                 $D.removeClass(oBtnBack, 'btn-disable');
                 $D.addClass(oBtnGo, 'btn-disable');
@@ -125,7 +137,7 @@ define(['archmage', 'comp/panel'], function (am, Panel) {
     return am.Class({
         init: function (options) {
             var self = this;
-            self.options = am.extend({}, _OPTION, options);
+            self.options = am.extend(true, {}, _OPTION, options);
 
             domRender(self);
             bindEvents(self);

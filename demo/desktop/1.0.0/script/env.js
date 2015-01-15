@@ -1,10 +1,11 @@
-define(['archmage'], function(am){
+define([], function(){
+
 
     var ENV = {
         env4dock: [{
             appName: 'browser',
             options: {
-                fit: true,
+                fit: false,
                 width: '800px',
                 height: '400px'
             }
