@@ -1,4 +1,4 @@
-define(['archmage', 'comp/panel'], function (am, Panel) {
+define(['archmage', 'comp/panel', 'memory'], function (am, Panel, Memory) {
     var $D = am.dom,
         $E = am.event,
 
@@ -15,15 +15,7 @@ define(['archmage', 'comp/panel'], function (am, Panel) {
 
         _HANDLE = {
 
-        },
-
-        getIndex = (function(){
-            var index = 100;
-
-            return function(){
-                return index++;
-            };
-        })();
+        };
 
     function domRender(self){
         var panelWrap,
@@ -47,9 +39,9 @@ define(['archmage', 'comp/panel'], function (am, Panel) {
         ].join('');
 
         panelWrap.setAttribute('data-mark', Math.random());
-        $D.setStyle(panelWrap, {
-            zIndex : getIndex()
-        });
+        // $D.setStyle(panelWrap, {
+        //     zIndex : getIndex()
+        // });
 
         opts.el = panelWrap;
 
@@ -136,11 +128,23 @@ define(['archmage', 'comp/panel'], function (am, Panel) {
 
     return am.Class({
         init: function (options) {
-            var self = this;
+            var self = this,
+                MEMORY = Memory.memory();
             self.options = am.extend(true, {}, _OPTION, options);
+      
+            // //当前为：“通过快捷方式打开”，需要先检测“内存”模块，
+            // //  若“内存”中已存在当前进程，则默认显示已存在的app进程
+            // //  若不存在当前app进程，则新创建
+            // if(options.model === 'shortcut' && Memory.check('browser')){ 
+            //     MEMORY['browser'][0].show();
+            // }else{
+                domRender(self);
+                bindEvents(self);
+            // }
+        },
 
-            domRender(self);
-            bindEvents(self);
+        show: function(options){
+            this.options.panel.show(options);
         },
 
         __config__: {

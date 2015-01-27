@@ -74,7 +74,7 @@ input, label, button, textarea{vertical-align: middle;-webkit-appearance:none;ou
     right:5px;
 }
 .toolbar .menu-btn-wrap-top{
-    top:18px!important;
+    top:17px!important;
     left:0!important;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -96,6 +96,10 @@ input, label, button, textarea{vertical-align: middle;-webkit-appearance:none;ou
     right: 0;
     border-radius: 5px;
     background-color:#f6f6f6;
+}
+
+.panel-active{
+    z-index: 10000!important;
 }
 .panel-center{
     margin: auto;

@@ -2,35 +2,48 @@ define(['archmage'], function (am) {
 
     var $D = am.dom,
         $T = am.type,
-        $E = am.event;
+        $E = am.event,
 
-    var _OPTION = {
-        /**
-         * 是否初始化关闭按钮
-         */
-        closable: true,
-        /**
-         * 是否初始化最小化按钮
-         */
-        minimizable: true,
-        /**
-         * 是否初始化最大化按钮
-         */
-        maximizable: true,
+        _OPTION = {
+            /**
+             * 是否初始化关闭按钮
+             */
+            closable: true,
+            /**
+             * 是否初始化最小化按钮
+             */
+            minimizable: true,
+            /**
+             * 是否初始化最大化按钮
+             */
+            maximizable: true,
 
-        fit: false,
+            fit: false,
 
-        position: 'center',
+            position: 'center',
 
-        width: 300,
+            width: 300,
 
-        height: 300,
+            height: 300,
 
-        isShow: true,
+            isShow: true,
 
-        __oWidth: null,
-        __oHeight: null
-    };
+            isActive: true,
+
+            __oWidth: null,
+            __oHeight: null
+        },
+
+        //z-index最大值
+        ACTIVE_Cls = 'panel-active',
+
+        getIndex = (function(){
+            var index = 100;
+
+            return function(){
+                return index++;
+            };
+        })();
 
     function domRender(self) {
         var opts = self.options,
@@ -43,7 +56,7 @@ define(['archmage'], function (am) {
             '<div class="panel-header">',
             initToolsButton(opts),
             '</div>',
-                '<div class="panel-body">' + content + '</div>'
+            '<div class="panel-body">' + content + '</div>'
         ].join('');
 
         setSize(self);
@@ -73,6 +86,17 @@ define(['archmage'], function (am) {
 
             method = 'addClass';
         }
+
+
+        //当isActive属性为true时，表示当前panel为激活状态，因此默认置顶显示
+        if(opts.isActive === true){
+            $D.className(ACTIVE_Cls, function(){
+                $D.removeClass(this, ACTIVE_Cls);
+            });
+            $D.addClass(el, ACTIVE_Cls);
+        }
+        
+
         $D.setStyle(el, {
             width: opts.width,
             height: opts.height,
@@ -113,27 +137,61 @@ define(['archmage'], function (am) {
                     $E.off(oHeader, 'click', headerClickHandler);
                     $D.remove(el);
 
-                } else if ($D.hasClass(target, CLASS_NAME + 'minimizable')) {  //最小化窗口
+                } else {
+                    var param;
+                    if ($D.hasClass(target, CLASS_NAME + 'minimizable')) {  //最小化窗口
 
-                    am.extend(opts, {
-                        fit: false,
-                        __oWidth: opts.width,
-                        __oHeight: opts.height,
-                        isShow: false
-                    });
-                    setSize(self);
+                        // am.extend(opts, {
+                        //     fit: false,
+                        //     __oWidth: opts.width,
+                        //     __oHeight: opts.height,
+                        //     isShow: false
+                        // });
+                        // setSize(self);
 
-                } else if ($D.hasClass(target, CLASS_NAME + 'maximizable')) {  //最大化/还原窗口
-                    am.extend(opts, {
-                        isShow: true,
-                        fit: opts.fit === true ? false : true
-                    });
+                        param = {
+                            fit: false,
+                            __oWidth: opts.width,
+                            __oHeight: opts.height,
+                            isShow: false
+                        };
+
+                    } else if ($D.hasClass(target, CLASS_NAME + 'maximizable')) {  //最大化/还原窗口
+                        // am.extend(opts, {
+                        //     isShow: true,
+                        //     fit: opts.fit === true ? false : true
+                        // });
+                        // setSize(self);
+
+                        param = {
+                            isShow: true,
+                            fit: opts.fit === true ? false : true
+                        };
+                    }
+
+                    am.extend(opts, param);
                     setSize(self);
                 }
             }
         };
 
+        //外框按钮的点击事件
         $E.on(oHeader, 'click', headerClickHandler);
+
+        var activeHandle = function(){
+            opts.isAtive = true;
+            // setSize(self);
+
+            //找到当前置顶的容器，并取消置顶样式
+            $D.className(ACTIVE_Cls, function(){
+                $D.removeClass(this, ACTIVE_Cls);
+            });
+            //给当前dom增加置顶标签
+            $D.addClass(el, ACTIVE_Cls);
+        };
+
+        //窗口激活事件
+        $E.on(el, 'click', activeHandle);
     }
 
 
@@ -145,6 +203,12 @@ define(['archmage'], function (am) {
 
             domRender(self);
             bindEvents(self);
+        },
+        /**
+         *  显示接口
+         */
+        show: function(){
+
         }
     });
 });

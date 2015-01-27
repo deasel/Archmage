@@ -1,4 +1,4 @@
-define(['archmage', 'apps/app'], function(am, Application){
+define(['archmage', 'apps/app', 'memory'], function(am, Application, Memory){
 
     var $D = am.dom,
         $E = am.event,
@@ -12,8 +12,19 @@ define(['archmage', 'apps/app'], function(am, Application){
         _HANDLE = {
             click: function(event){
                 var appConfig = this.options,
+                    appName = appConfig.appName,
                     Factory = appConfig.constructor;
-                new Factory(appConfig.options);
+
+                //判断当前app在“内存”中是否已经存在，若已存在，则直接显示
+                //  若不存在，则重新创建
+                if(Memory.check(appName)){
+                    
+                }
+
+                new Factory(am.extend(appConfig.options, {
+                    // model: 'shortcut',
+                    isActive: true
+                }));
             }
         };
 
